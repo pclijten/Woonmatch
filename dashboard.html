@@ -331,7 +331,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">niste<span class="logo-dot"></span></a>
+  <a href="index.html" class="nav-logo">niste<span class="logo-dot"></span></a>
   <div class="nav-right">
     <div class="nav-user">
       <div class="nav-avatar" id="nav-avatar">?</div>
@@ -357,7 +357,7 @@
     </button>
 
     <span class="sidebar-label">Account</span>
-    <a href="/privacy.html" class="nav-item" target="_blank">
+    <a href="privacy.html" class="nav-item" target="_blank">
       <span class="nav-icon">🔒</span> Privacyverklaring
     </a>
     <button class="nav-item danger" onclick="openDeleteModal()">
@@ -589,6 +589,7 @@
 <script type="module">
   import { initializeApp }                        from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
   import { getAuth, signOut, deleteUser,
+           GoogleAuthProvider, signInWithPopup,
            onAuthStateChanged }                   from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc,
            updateDoc, deleteDoc, collection,
@@ -687,6 +688,12 @@
     }
   };
 
+  // ── GOOGLE RE-AUTH (needed before deleteAccount if Google user) ────────────
+  window.reauthWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  };
+
   // ── LOGOUT ─────────────────────────────────────────────────────────────────
   window.handleLogout = async () => {
     await signOut(auth);
@@ -706,7 +713,19 @@
       window.location.href = "index.html";
     } catch (e) {
       if (e.code === "auth/requires-recent-login") {
-        showMsg("global-msg", "Log opnieuw in en probeer opnieuw (beveiligingsmaatregel).", "error");
+        // Probeer Google re-auth als de user via Google is ingelogd
+        const isGoogle = currentUser.providerData.some(p => p.providerId === "google.com");
+        if (isGoogle) {
+          try {
+            await reauthWithGoogle();
+            await deleteUser(currentUser);
+            window.location.href = "index.html";
+          } catch {
+            showMsg("global-msg", "Re-authenticatie mislukt. Log uit en opnieuw in, en probeer dan opnieuw.", "error");
+          }
+        } else {
+          showMsg("global-msg", "Log uit en opnieuw in, en probeer dan opnieuw te verwijderen.", "error");
+        }
       } else {
         showMsg("global-msg", "Verwijderen mislukt. Probeer het opnieuw.", "error");
       }
