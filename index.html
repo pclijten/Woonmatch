@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niste – Inloggen</title>
+  <title>Niste – Vind je volgende thuis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --cream:  #F6F1E9;
       --warm:   #EDE5D4;
@@ -117,19 +116,104 @@
       color: rgba(246,241,233,.55); max-width: 340px;
       margin-bottom: 2.8rem; position: relative; z-index: 1;
     }
+
+    /* Divider */
+    .brand-divider {
+      width: 40px; height: 1px;
+      background: rgba(196,154,74,.4);
+      margin-bottom: 1.8rem;
+      position: relative; z-index: 1;
+    }
+
+    .brand-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 2.4rem;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .brand-feature {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(246,241,233,.06);
+      border: 1px solid rgba(246,241,233,.08);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .brand-feature-icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: rgba(196,154,74,.18);
+      border: 1px solid rgba(196,154,74,.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: .75rem;
+      margin-top: 1px;
+    }
+
+    .brand-feature-text strong {
+      display: block;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 3px;
+    }
+
+    .brand-feature-text span {
+      font-size: .73rem;
+      color: rgba(246,241,233,.55);
+      line-height: 1.5;
+    }
+
     .brand-stats {
       display: flex; gap: 2rem; position: relative; z-index: 1;
+      padding-top: 1.6rem;
+      border-top: 1px solid rgba(246,241,233,.08);
+      width: 100%;
     }
     .brand-stat-val {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem; font-weight: 600;
+      font-size: 1.9rem; font-weight: 600;
       color: var(--gold); line-height: 1;
     }
     .brand-stat-lbl {
-      font-size: .65rem; font-weight: 700;
+      font-size: .63rem; font-weight: 700;
       letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(246,241,233,.35); margin-top: .2rem;
+      color: rgba(246,241,233,.3); margin-top: .25rem;
     }
+
+    /* ── MOBILE INTRO STRIP (hidden on desktop) ── */
+    .mobile-intro {
+      display: none;
+      background: var(--forest);
+      padding: 1.6rem 1.4rem 1.4rem;
+      text-align: center;
+    }
+    .mobile-intro p {
+      font-size: .83rem;
+      line-height: 1.6;
+      color: rgba(246,241,233,.75);
+      max-width: 340px;
+      margin: 0 auto .75rem;
+    }
+    .mobile-trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+    }
+    .mobile-trust-item {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(246,241,233,.4);
+    }
+    .mobile-trust-item svg { opacity: .5; }
 
     /* RIGHT: auth form */
     .auth-panel {
@@ -176,6 +260,26 @@
     .panel-sub {
       font-size: .82rem; color: var(--mid);
       margin-bottom: 1.8rem; line-height: 1.6;
+    }
+
+    /* Trust signal onder subtitel */
+    .trust-chips {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      margin-bottom: 1.6rem; margin-top: -.6rem;
+    }
+    .trust-chip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      background: rgba(42,74,62,.06);
+      border: 1px solid rgba(42,74,62,.1);
+      border-radius: 100px;
+      padding: .28rem .7rem;
+      font-size: .66rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--forest);
+    }
+    .trust-chip-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
     }
 
     /* fields */
@@ -398,184 +502,14 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* responsive */
+    /* ── RESPONSIVE ── */
     @media (max-width: 800px) {
       main { grid-template-columns: 1fr; }
       .auth-brand { display: none; }
+      .mobile-intro { display: block; }
       nav { padding: 1rem 1.4rem; }
       .auth-panel { padding: 2.5rem 1.4rem; }
     }
-    .hero-summary {
-  padding: 96px 24px;
-  background: linear-gradient(135deg, #214b3e 0%, #16352d 100%);
-  color: #f6efe6;
-}
-
-.hero-summary__content {
-  max-width: 980px;
-  margin: 0 auto;
-}
-
-.hero-summary__eyebrow {
-  display: inline-block;
-  margin-bottom: 20px;
-  padding: 8px 14px;
-  border: 1px solid rgba(246, 239, 230, 0.18);
-  border-radius: 999px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #d9bf84;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.hero-summary h1 {
-  margin: 0 0 20px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(3rem, 6vw, 5.2rem);
-  line-height: 0.95;
-  font-weight: 500;
-  max-width: 760px;
-}
-
-.hero-summary__lead {
-  max-width: 760px;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: rgba(246, 239, 230, 0.88);
-  margin-bottom: 40px;
-}
-
-.hero-summary__points {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-bottom: 36px;
-}
-
-.hero-summary__point {
-  padding: 22px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(246, 239, 230, 0.08);
-  backdrop-filter: blur(10px);
-}
-
-.hero-summary__point strong {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1rem;
-  color: #f6efe6;
-}
-
-.hero-summary__point span {
-  display: block;
-  font-size: 0.97rem;
-  line-height: 1.6;
-  color: rgba(246, 239, 230, 0.78);
-}
-
-.hero-summary__closing {
-  max-width: 760px;
-  font-size: 1rem;
-  line-height: 1.8;
-  color: rgba(246, 239, 230, 0.82);
-  margin-bottom: 30px;
-}
-
-.hero-summary__cta {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.hero-summary__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 54px;
-  padding: 0 24px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.hero-summary__button--primary {
-  background: #d9bf84;
-  color: #17352d;
-}
-
-.hero-summary__button--primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.02);
-}
-
-.hero-summary__button--secondary {
-  border: 1px solid rgba(246, 239, 230, 0.18);
-  color: #f6efe6;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.hero-summary__button--secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-@media (max-width: 768px) {
-  .hero-summary {
-    padding: 72px 20px;
-  }
-
-  .hero-summary__points {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-summary h1 {
-    line-height: 1;
-  }
-
-  .hero-summary__lead,
-  .hero-summary__closing {
-    font-size: 1rem;
-  }
-
-  .hero-summary__cta {
-    flex-direction: column;
-  }
-
-  .hero-summary__button {
-    width: 100%;
-  }
-}
-    .brand-features {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 2.2rem;
-  position: relative;
-  z-index: 1;
-}
-
-.brand-feature {
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: rgba(246,241,233,.06);
-  border: 1px solid rgba(246,241,233,.08);
-  backdrop-filter: blur(6px);
-}
-
-.brand-feature strong {
-  display: block;
-  font-size: .85rem;
-  color: var(--cream);
-  margin-bottom: 4px;
-}
-
-.brand-feature span {
-  font-size: .75rem;
-  color: rgba(246,241,233,.6);
-  line-height: 1.5;
-}
   </style>
 </head>
 <body>
@@ -583,83 +517,136 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">niste<span class="logo-dot"></span></a>
-  <span class="nav-pill">Pilot 2026 "NIeuweSTek</span>
+  <span class="nav-pill">Pilot 2026 · Noord-Brabant</span>
 </nav>
 
 <!-- MAIN -->
 <main>
-   <!-- BRAND PANEL -->
-<div class="auth-brand">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
 
-  <div class="brand-badge">
-    <span class="brand-dot"></span>
-    Unlocking Hidden Housing Mobility
+  <!-- ── BRAND PANEL (desktop left) ── -->
+  <div class="auth-brand">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Badge -->
+    <div class="brand-badge">
+      <span class="brand-dot"></span>
+      Woningmatch · Pilot Noord-Brabant
+    </div>
+
+    <!-- Headline -->
+    <!-- COPY-PRINCIPE: zowel senior als gezin herkent zich in "iemand heeft wat jij zoekt" -->
+    <h1 class="brand-headline">
+      Iemand in jouw<br>
+      buurt heeft wat<br>
+      <em>jij zoekt</em>
+    </h1>
+
+    <!-- Sub -->
+    <p class="brand-sub">
+      Of je toe bent aan een rustiger woning of juist meer ruimte nodig hebt — Niste brengt je anoniem in contact met een huishouden dat precies de andere kant van jouw verhaal is. Vrijblijvend en zonder verkoopdruk.
+    </p>
+
+    <!-- Divider -->
+    <div class="brand-divider"></div>
+
+    <!-- Feature cards -->
+    <div class="brand-features">
+
+      <div class="brand-feature">
+        <div class="brand-feature-icon">🔒</div>
+        <div class="brand-feature-text">
+          <strong>Volledig anoniem</strong>
+          <span>Je adres en gegevens blijven afgeschermd totdat jij expliciet toestemming geeft.</span>
+        </div>
+      </div>
+
+      <div class="brand-feature">
+        <div class="brand-feature-icon">🔗</div>
+        <div class="brand-feature-text">
+          <strong>Eén verhuizing, meerdere gevolgen</strong>
+          <span>Als jij verhuist, komt er ruimte vrij voor een gezin én een starter. Niste berekent de keten.</span>
+        </div>
+      </div>
+
+      <div class="brand-feature">
+        <div class="brand-feature-icon">✋</div>
+        <div class="brand-feature-text">
+          <strong>Altijd vrijblijvend</strong>
+          <span>Kijken kost niets. Geen makelaar, geen contract, geen haast. Jij bepaalt wanneer je een stap zet.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stats — PLACEHOLDER VARIABELEN: vervang zodra pilotdata beschikbaar is -->
+    <div class="brand-stats">
+      <div>
+        <!-- [STAT_1]: Aantal aanmeldingen in de pilot -->
+        <div class="brand-stat-val">{{AANMELDINGEN}}</div>
+        <div class="brand-stat-lbl">Aanmeldingen</div>
+      </div>
+      <div>
+        <!-- [STAT_2]: Aantal potentiële matches gevonden -->
+        <div class="brand-stat-val">{{MATCHES}}</div>
+        <div class="brand-stat-lbl">Potentiële matches</div>
+      </div>
+      <div>
+        <!-- [STAT_3]: Kosten deelname — vast € 0,– voor pilotfase -->
+        <div class="brand-stat-val">€ 0,–</div>
+        <div class="brand-stat-lbl">Deelname pilot</div>
+      </div>
+    </div>
   </div>
 
-  <h1 class="brand-headline">
-    Jouw volgende<br>
-    <em>thuis</em> begint<br>
-    hier
-  </h1>
-
-  <p class="brand-sub">
-    Niste maakt verborgen woonkansen zichtbaar door woningzoekenden slim aan elkaar te koppelen.
-    Niet alleen op basis van wensen, maar op basis van échte verhuismogelijkheden.
-  </p>
-
-  <!-- NIEUW: USP BLOKKEN -->
-  <div class="brand-features">
-    <div class="brand-feature">
-      <strong>AI matching</strong>
-      <span>Persoonlijke koppelingen op basis van situatie en potentie</span>
-    </div>
-    <div class="brand-feature">
-      <strong>Doorstroomketens</strong>
-      <span>Eén match kan meerdere verhuizingen mogelijk maken</span>
-    </div>
-    <div class="brand-feature">
-      <strong>Sneller resultaat</strong>
-      <span>Concrete kansen in weken in plaats van maanden</span>
-    </div>
-  </div>
-
-  <div class="brand-stats">
-    <div>
-      <div class="brand-stat-val">87%</div>
-      <div class="brand-stat-lbl">Matchkans</div>
-    </div>
-    <div>
-      <div class="brand-stat-val">2–6wk</div>
-      <div class="brand-stat-lbl">Doorlooptijd</div>
-    </div>
-    <div>
-      <div class="brand-stat-val">€ 0,–</div>
-      <div class="brand-stat-lbl">Kosten pilot</div>
+  <!-- ── MOBILE INTRO STRIP (alleen zichtbaar op mobiel, vervangt brand panel) ── -->
+  <div class="mobile-intro">
+    <p>
+      Niste brengt je anoniem in contact met huishoudens die precies de andere kant van jouw verhaal zijn. Vrijblijvend, veilig en zonder verkoopdruk.
+    </p>
+    <div class="mobile-trust-row">
+      <span class="mobile-trust-item">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="5" r="4" stroke="rgba(246,241,233,.5)" stroke-width="1.2"/>
+          <path d="M3 5l1.5 1.5L7 3.5" stroke="rgba(246,241,233,.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Anoniem
+      </span>
+      <span class="mobile-trust-item">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="5" r="4" stroke="rgba(246,241,233,.5)" stroke-width="1.2"/>
+          <path d="M3 5l1.5 1.5L7 3.5" stroke="rgba(246,241,233,.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Vrijblijvend
+      </span>
+      <span class="mobile-trust-item">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="5" r="4" stroke="rgba(246,241,233,.5)" stroke-width="1.2"/>
+          <path d="M3 5l1.5 1.5L7 3.5" stroke="rgba(246,241,233,.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Gratis pilot
+      </span>
     </div>
   </div>
-</div>
 
-  <!-- AUTH PANEL -->
+  <!-- ── AUTH PANEL (rechts) ── -->
   <div class="auth-panel">
     <div class="auth-box" id="auth-section">
+
       <!-- TAB BAR -->
       <div class="tab-bar">
         <button class="tab-btn active" onclick="switchTab('login')">Inloggen</button>
-        <button class="tab-btn" onclick="switchTab('register')">Registreren</button>
+        <button class="tab-btn" onclick="switchTab('register')">Aanmelden</button>
       </div>
 
-      <!-- LOGIN -->
+      <!-- ── LOGIN PANEL ── -->
       <div class="auth-form-panel active" id="panel-login">
         <h2 class="panel-title">Welkom terug</h2>
-        <p class="panel-sub">Log in op je Niste account om verder te gaan.</p>
+        <p class="panel-sub">Bekijk je matches en de status van je aanmelding.</p>
+
         <div class="msg-box" id="login-msg"></div>
-        <button class="btn-google" onclick="loginWithGoogle()">
-          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Doorgaan met Google
-        </button>
-        <div class="divider-or">of met e-mail</div>
+
+        <!-- E-MAIL FIRST: senioren gebruiken Google minder betrouwbaar -->
         <div class="field">
           <label>E-mailadres</label>
           <input type="email" id="login-email" placeholder="jij@voorbeeld.nl" autocomplete="email">
@@ -672,18 +659,28 @@
           Inloggen
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-      </div>
 
-      <!-- REGISTER -->
-      <div class="auth-form-panel" id="panel-register">
-        <h2 class="panel-title">Account aanmaken</h2>
-        <p class="panel-sub">Start gratis mee met de Niste pilot in Noord-Brabant.</p>
-        <div class="msg-box" id="register-msg"></div>
+        <div class="divider-or" style="margin-top: 1rem;">of</div>
         <button class="btn-google" onclick="loginWithGoogle()">
           <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Registreren met Google
+          Inloggen met Google
         </button>
-        <div class="divider-or">of met e-mail</div>
+      </div>
+
+      <!-- ── REGISTER PANEL ── -->
+      <div class="auth-form-panel" id="panel-register">
+        <h2 class="panel-title">Doe mee met de pilot</h2>
+        <p class="panel-sub">Gratis deelnemen in Noord-Brabant. Wij nemen contact op voor een persoonlijke wooncheck.</p>
+
+        <!-- Trust chips: betrouwbaarheidssignalen direct onder de sub -->
+        <div class="trust-chips">
+          <span class="trust-chip"><span class="trust-chip-dot"></span>Anoniem</span>
+          <span class="trust-chip"><span class="trust-chip-dot"></span>Geen makelaar</span>
+          <span class="trust-chip"><span class="trust-chip-dot"></span>AVG-conform</span>
+        </div>
+
+        <div class="msg-box" id="register-msg"></div>
+
         <div class="field">
           <label>Volledige naam</label>
           <input type="text" id="reg-name" placeholder="Jan de Vries" autocomplete="name">
@@ -693,23 +690,32 @@
           <input type="email" id="reg-email" placeholder="jij@voorbeeld.nl" autocomplete="email">
         </div>
         <div class="field">
-          <label>Wachtwoord (min. 8 tekens)</label>
+          <label>Wachtwoord (minimaal 8 tekens)</label>
           <input type="password" id="reg-password" placeholder="Kies een sterk wachtwoord" autocomplete="new-password">
         </div>
+
+        <!-- Consent: expliciete, heldere taal — cruciaal voor vertrouwen bij 65+ -->
         <div class="consent-row">
           <input type="checkbox" id="consent-check">
           <label for="consent-check">
-            Ik ga akkoord met de <a href="privacy.html" target="_blank">privacyverklaring</a> van Niste. Mijn gegevens worden gebruikt voor matching en accountbeheer. Ik kan mijn account op elk moment verwijderen.
+            Ik ga akkoord met de <a href="privacy.html" target="_blank">privacyverklaring</a> van Niste. Mijn gegevens worden uitsluitend gebruikt voor het matchen van woningprofielen en worden nooit gedeeld zonder mijn uitdrukkelijke toestemming. Ik kan mijn account op elk moment volledig verwijderen.
           </label>
         </div>
+
         <button class="btn-submit" id="btn-register" onclick="registerUser()">
-          Account aanmaken
+          Aanmelden voor de pilot
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="divider-or" style="margin-top: 1rem;">of</div>
+        <button class="btn-google" onclick="loginWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Aanmelden met Google
         </button>
       </div>
     </div>
 
-    <!-- DASHBOARD (shown when logged in) -->
+    <!-- ── DASHBOARD (zichtbaar na inloggen) ── -->
     <div class="auth-box" id="dashboard">
       <div class="msg-box" id="dash-msg"></div>
       <div class="user-card">
@@ -723,20 +729,22 @@
       </div>
       <div class="user-card">
         <div class="user-card-label">Jouw status</div>
+        <!-- [STATUS]: wordt dynamisch ingevuld op basis van voortgang in het platform -->
         <p style="font-size:.85rem;color:var(--mid);line-height:1.6;margin-top:.3rem">
-          🟡 Je aanmelding is ontvangen. Ons team neemt contact met je op voor een persoonlijk matchgesprek.
+          🟡 Aanmelding ontvangen. Ons team neemt binnen 5 werkdagen contact op voor je persoonlijke wooncheck.
         </p>
       </div>
     </div>
   </div>
+
 </main>
 
-<!-- DELETE CONFIRM MODAL -->
+<!-- ── DELETE CONFIRM MODAL ── -->
 <div class="modal-overlay" id="delete-modal">
   <div class="modal-box">
     <h3>Account verwijderen?</h3>
     <p>
-      Dit verwijdert je account én alle bijbehorende gegevens permanent uit onze systemen. Deze actie kan niet ongedaan worden gemaakt.
+      Dit verwijdert je account én alle bijbehorende gegevens permanent uit onze systemen. Jouw woonprofiel en eventuele matches worden volledig gewist. Deze actie kan niet ongedaan worden gemaakt.
     </p>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeDeleteModal()">Annuleren</button>
@@ -745,10 +753,10 @@
   </div>
 </div>
 
-<!-- COOKIE BANNER -->
+<!-- ── COOKIE BANNER ── -->
 <div id="cookie-banner">
   <p class="cookie-text">
-    Niste gebruikt functionele cookies voor authenticatie. We bewaren geen tracking cookies. Lees meer in onze <a href="privacy.html">privacyverklaring</a>.
+    Niste gebruikt uitsluitend functionele cookies voor authenticatie. Wij plaatsen geen tracking- of advertentiecookies. Lees meer in onze <a href="privacy.html">privacyverklaring</a>.
   </p>
   <div class="cookie-btns">
     <button class="btn-decline-cookie" onclick="declineCookies()">Alleen noodzakelijk</button>
@@ -756,14 +764,16 @@
   </div>
 </div>
 
-<!-- FIREBASE v10 MODULAR SDK -->
+<!-- ── FIREBASE v10 MODULAR SDK ── -->
 <script type="module">
   import { initializeApp }                        from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword,
            signInWithEmailAndPassword, GoogleAuthProvider,
-           signInWithPopup, onAuthStateChanged }  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc,
-           serverTimestamp }                      from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+           signInWithPopup, onAuthStateChanged,
+           signOut, deleteUser }                  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc,
+           deleteDoc, collection, query, where,
+           getDocs, serverTimestamp }             from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
   // ── CONFIG ──────────────────────────────────────────────────────────────────
   const firebaseConfig = {
@@ -791,23 +801,22 @@
     el.textContent = "";
     el.className = "msg-box";
   }
-  function setLoading(btnId, loading) {
+  function setLoading(btnId, loading, originalHTML) {
     const btn = document.getElementById(btnId);
     if (loading) {
       btn.disabled = true;
       btn.innerHTML = '<div class="spinner"></div>';
     } else {
       btn.disabled = false;
+      if (originalHTML) btn.innerHTML = originalHTML;
     }
   }
 
   // ── AUTH STATE ───────────────────────────────────────────────────────────────
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // Ingelogd → stuur door naar dashboard
       window.location.href = "dashboard.html";
     }
-    // Niet ingelogd → blijf op index.html (huidige pagina)
   });
 
   // ── GOOGLE LOGIN ─────────────────────────────────────────────────────────────
@@ -817,8 +826,6 @@
     try {
       const cred = await signInWithPopup(auth, provider);
       const user = cred.user;
-      // Maak Firestore doc aan als het nog niet bestaat (eerste keer Google login)
-      const { getDoc } = await import("https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js");
       const snap = await getDoc(doc(db, "users", user.uid));
       if (!snap.exists()) {
         await setDoc(doc(db, "users", user.uid), {
@@ -831,12 +838,11 @@
           provider:    "google"
         });
       }
-      // onAuthStateChanged handelt de redirect naar dashboard.html af
     } catch (e) {
       const msgId = document.getElementById("panel-login").classList.contains("active")
         ? "login-msg" : "register-msg";
       if (e.code !== "auth/popup-closed-by-user") {
-        showMsg(msgId, "Google inloggen mislukt. Probeer opnieuw.");
+        showMsg(msgId, "Google inloggen mislukt. Probeer het opnieuw.");
       }
     }
   };
@@ -849,10 +855,11 @@
     const password = document.getElementById("reg-password").value;
     const consent  = document.getElementById("consent-check").checked;
 
-    if (!name || !email || !password)    return showMsg("register-msg", "Vul alle velden in.");
-    if (password.length < 8)             return showMsg("register-msg", "Wachtwoord moet minimaal 8 tekens zijn.");
-    if (!consent)                        return showMsg("register-msg", "Je moet akkoord gaan met de privacyverklaring om verder te gaan.");
+    if (!name || !email || !password) return showMsg("register-msg", "Vul alle velden in om verder te gaan.");
+    if (password.length < 8)          return showMsg("register-msg", "Wachtwoord moet minimaal 8 tekens zijn.");
+    if (!consent)                     return showMsg("register-msg", "Ga akkoord met de privacyverklaring om verder te gaan.");
 
+    const originalHTML = 'Aanmelden voor de pilot <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     setLoading("btn-register", true);
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -862,20 +869,18 @@
         email,
         preferences: {},
         consentAt:   new Date().toISOString(),
-        createdAt:   new Date().toISOString()
+        createdAt:   new Date().toISOString(),
+        provider:    "email"
       });
-      showMsg("register-msg", "Account aangemaakt! Je wordt ingelogd…", "success");
+      showMsg("register-msg", "Aanmelding gelukt! Je wordt ingelogd…", "success");
     } catch (e) {
       const msgs = {
-        "auth/email-already-in-use": "Dit e-mailadres is al in gebruik.",
-        "auth/invalid-email":        "Ongeldig e-mailadres.",
-        "auth/weak-password":        "Wachtwoord is te zwak."
+        "auth/email-already-in-use": "Dit e-mailadres is al gekoppeld aan een account.",
+        "auth/invalid-email":        "Dit e-mailadres is niet geldig.",
+        "auth/weak-password":        "Kies een sterker wachtwoord."
       };
-      showMsg("register-msg", msgs[e.code] || "Er ging iets mis. Probeer opnieuw.");
-    } finally {
-      const btn = document.getElementById("btn-register");
-      btn.disabled = false;
-      btn.innerHTML = 'Account aanmaken <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      showMsg("register-msg", msgs[e.code] || "Er ging iets mis. Probeer het opnieuw.");
+      setLoading("btn-register", false, originalHTML);
     }
   };
 
@@ -885,30 +890,26 @@
     const email    = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value;
 
-    if (!email || !password) return showMsg("login-msg", "Vul je e-mail en wachtwoord in.");
+    if (!email || !password) return showMsg("login-msg", "Vul je e-mailadres en wachtwoord in.");
 
+    const originalHTML = 'Inloggen <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     setLoading("btn-login", true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (e) {
       const msgs = {
-        "auth/invalid-credential":   "E-mail of wachtwoord onjuist.",
+        "auth/invalid-credential":   "E-mailadres of wachtwoord onjuist.",
         "auth/user-not-found":       "Geen account gevonden met dit e-mailadres.",
         "auth/wrong-password":       "Wachtwoord onjuist.",
         "auth/too-many-requests":    "Te veel pogingen. Probeer het later opnieuw."
       };
-      showMsg("login-msg", msgs[e.code] || "Inloggen mislukt. Probeer opnieuw.");
-    } finally {
-      const btn = document.getElementById("btn-login");
-      btn.disabled = false;
-      btn.innerHTML = 'Inloggen <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      showMsg("login-msg", msgs[e.code] || "Inloggen mislukt. Probeer het opnieuw.");
+      setLoading("btn-login", false, originalHTML);
     }
   };
 
   // ── LOGOUT ───────────────────────────────────────────────────────────────────
-  window.logoutUser = async () => {
-    await signOut(auth);
-  };
+  window.logoutUser = async () => { await signOut(auth); };
 
   // ── DELETE ACCOUNT ───────────────────────────────────────────────────────────
   window.deleteAccount = async () => {
@@ -916,20 +917,17 @@
     const user = auth.currentUser;
     if (!user) return;
     try {
-      // 1. Delete Firestore user doc
       await deleteDoc(doc(db, "users", user.uid));
-      // 2. Delete matches where userId matches
       const matchQ = query(collection(db, "matches"), where("userId", "==", user.uid));
       const matchSnap = await getDocs(matchQ);
       for (const m of matchSnap.docs) await deleteDoc(m.ref);
-      // 3. Delete Firebase Auth user
       await deleteUser(user);
       showMsg("dash-msg", "Je account is volledig verwijderd.", "success");
     } catch (e) {
       if (e.code === "auth/requires-recent-login") {
-        showMsg("dash-msg", "Log opnieuw in en probeer het dan opnieuw te verwijderen (vereiste beveiligingsmaatregel).", "error");
+        showMsg("dash-msg", "Log opnieuw in en probeer het dan opnieuw (beveiligingsmaatregel).", "error");
       } else {
-        showMsg("dash-msg", "Er ging iets mis. Probeer opnieuw.", "error");
+        showMsg("dash-msg", "Er ging iets mis. Probeer het opnieuw.", "error");
       }
     }
   };
@@ -964,14 +962,8 @@
   const banner = document.getElementById("cookie-banner");
   if (localStorage.getItem(COOKIE_KEY)) banner.style.display = "none";
 
-  window.acceptCookies = () => {
-    localStorage.setItem(COOKIE_KEY, "accepted");
-    banner.style.display = "none";
-  };
-  window.declineCookies = () => {
-    localStorage.setItem(COOKIE_KEY, "declined");
-    banner.style.display = "none";
-  };
+  window.acceptCookies  = () => { localStorage.setItem(COOKIE_KEY, "accepted"); banner.style.display = "none"; };
+  window.declineCookies = () => { localStorage.setItem(COOKIE_KEY, "declined"); banner.style.display = "none"; };
 </script>
 </body>
 </html>
