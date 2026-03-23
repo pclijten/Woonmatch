@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoonMatch – Vind jouw ideale woningruil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <div class="max-w-4xl mx-auto p-6">
+
+    <!-- HEADER -->
+    <h1 class="text-4xl font-bold mb-4">🏡 WoonMatch</h1>
+    <p class="text-lg mb-8">
+      Vind eenvoudig een woning die beter bij jouw leven past. 
+      Zonder gedoe, mét slimme matches.
+    </p>
+
+    <!-- PROBLEEM -->
+    <div class="bg-white p-6 rounded-2xl shadow mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Herken je dit?</h2>
+      <ul class="list-disc ml-5">
+        <li>Je woont te groot of te klein</li>
+        <li>Je wilt verhuizen, maar vindt niets passends</li>
+        <li>Je zit vast in de woningmarkt</li>
+      </ul>
+    </div>
+
+    <!-- OPLOSSING -->
+    <div class="bg-white p-6 rounded-2xl shadow mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Onze oplossing</h2>
+      <p>
+        Wij matchen jouw woning met iemand anders die precies zoekt wat jij hebt.
+        Zo creëren we slimme doorstroming.
+      </p>
+    </div>
+
+    <!-- FORM -->
+    <div class="bg-white p-6 rounded-2xl shadow">
+      <h2 class="text-2xl font-semibold mb-4">Vind jouw match</h2>
+
+      <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-4">
+
+        <input type="text" name="naam" placeholder="Naam" class="w-full p-3 border rounded" required>
+        <input type="email" name="email" placeholder="E-mail" class="w-full p-3 border rounded" required>
+
+        <input type="text" name="huidige_woning" placeholder="Huidige woning (bijv. 5-kamer huis Aarle-Rixtel)" class="w-full p-3 border rounded">
+
+        <input type="text" name="gewenste_woning" placeholder="Gewenste woning" class="w-full p-3 border rounded">
+
+        <select name="verhuisbereidheid" class="w-full p-3 border rounded">
+          <option value="">Wanneer wil je verhuizen?</option>
+          <option>Binnen 6 maanden</option>
+          <option>Binnen 1 jaar</option>
+          <option>Oriënterend</option>
+        </select>
+
+        <textarea name="opmerking" placeholder="Extra wensen" class="w-full p-3 border rounded"></textarea>
+
+        <button type="submit" class="bg-black text-white px-6 py-3 rounded-xl">
+          Vind mijn match
+        </button>
+
+      </form>
+    </div>
+
+    <!-- FOOTER -->
+    <p class="text-sm text-gray-500 mt-6">
+      Dit is een pilot. We nemen persoonlijk contact met je op.
+    </p>
+
+  </div>
+
+</body>
+</html>
