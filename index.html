@@ -831,19 +831,14 @@
     <input id="email" type="email" placeholder="email">
   </div>
 
-  <div class="field">
-    <label>Wachtwoord</label>
-    <input id="password" type="password" placeholder="wachtwoord">
-  </div>
+<div id="auth-box">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Wachtwoord">
 
-  <div style="display:flex; gap:.5rem; margin-top:.5rem;">
-    <button type="button" onclick="login()" class="submit-btn">Login</button>
-    <button type="button" onclick="register()" class="submit-btn">Registreer</button>
-  </div>
-
-  <button type="button" onclick="loginGoogle()" class="submit-btn" style="margin-top:.5rem;">
-    Inloggen met Google
-  </button>
+  <button onclick="register()">Account maken</button>
+  <button onclick="login()">Login</button>
+  <button onclick="googleLogin()">Google</button>
+</div>
 </div>
   <div class="form-card reveal">
     <h3>Vind jouw match</h3>
