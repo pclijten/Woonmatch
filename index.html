@@ -823,6 +823,28 @@
       </div>
     </div>
   </div>
+  <div style="margin-bottom:2rem;">
+  <div id="user-status" style="font-size:.8rem; margin-bottom:1rem;">Niet ingelogd</div>
+
+  <div class="field">
+    <label>Email</label>
+    <input id="email" type="email" placeholder="email">
+  </div>
+
+  <div class="field">
+    <label>Wachtwoord</label>
+    <input id="password" type="password" placeholder="wachtwoord">
+  </div>
+
+  <div style="display:flex; gap:.5rem; margin-top:.5rem;">
+    <button type="button" onclick="login()" class="submit-btn">Login</button>
+    <button type="button" onclick="register()" class="submit-btn">Registreer</button>
+  </div>
+
+  <button type="button" onclick="loginGoogle()" class="submit-btn" style="margin-top:.5rem;">
+    Inloggen met Google
+  </button>
+</div>
   <div class="form-card reveal">
     <h3>Vind jouw match</h3>
     <p class="sub">We reageren binnen 2 werkdagen</p>
@@ -904,6 +926,77 @@
     nav.style.boxShadow = window.scrollY > 40
       ? '0 2px 30px rgba(26,26,24,.08)'
       : 'none';
+  });
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDkrkHrPW4pPu0_ZVKGma-AVF4-gTtk9R8",
+    authDomain: "niste-1113e.firebaseapp.com",
+    projectId: "niste-1113e",
+    storageBucket: "niste-1113e.firebasestorage.app",
+    messagingSenderId: "292138618317",
+    appId: "1:292138618317:web:50984a6bff31725d6a0884"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 👉 Register
+  window.register = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Account aangemaakt 🎉");
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  // 👉 Login
+  window.login = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Ingelogd ✅");
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  // 👉 Google login
+  window.loginGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  // 👉 Logout
+  window.logout = async () => {
+    await signOut(auth);
+  };
+
+  // 👉 UI status
+  onAuthStateChanged(auth, user => {
+    const status = document.getElementById("user-status");
+
+    if (user) {
+      status.innerHTML = `
+        Ingelogd als ${user.email}
+        <button onclick="logout()">Uitloggen</button>
+      `;
+    } else {
+      status.innerHTML = "Niet ingelogd";
+    }
   });
 </script>
 </body>
