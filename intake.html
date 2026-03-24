@@ -526,26 +526,44 @@ function renderAll() {
   renderCard();
 }
 
-// ─── AUTH GATE ────────────────────────────────────────────────────────────────
-onAuthStateChanged(auth, async (u) => {
-  if (!u) {
-    // Niet ingelogd → auth-gate tonen
-    document.getElementById('area').innerHTML = `
-      <div class="card">
-        <div class="auth-gate">
-          <div class="auth-gate-title">Eerst aanmelden</div>
-          <p class="auth-gate-desc">
-            Om je woonprofiel op te slaan en matches te ontvangen, moet je ingelogd zijn.
-            Het aanmelden is gratis en verplicht je tot niets.
-          </p>
-          <a href="aanmelden.html" class="btn-to-login">Aanmelden of inloggen →</a>
-        </div>
-      </div>`;
-    document.getElementById('sdots').innerHTML = '';
-    return;
-  }
+// ── AUTH: embedded = user komt van parent via postMessage ─────────────────────
+if (embedded) {
+  // Wacht op uid van parent dashboard
+  window.addEventListener('message', async (e) => {
+    if (e.data?.type !== 'NISTE_USER') return;
+    user = { uid: e.data.uid, email: e.data.email };
+    const nu = document.getElementById('nav-user');
+    if (nu) nu.textContent = user.email;
+    await loadFromFirestore();
+    renderAll();
+  }, { once: true });
 
-  user = u;
+  // Toon lege staat zonder auth-gate (parent levert user aan)
+  document.getElementById('area').innerHTML = '';
+  renderAll();
+
+} else {
+  // Standalone: normale Firebase auth
+  onAuthStateChanged(auth, async (u) => {
+    if (!u) {
+      document.getElementById('area').innerHTML = `
+        <div class="card">
+          <div class="auth-gate">
+            <div class="auth-gate-title">Eerst aanmelden</div>
+            <p class="auth-gate-desc">Om je woonprofiel op te slaan en matches te ontvangen, moet je ingelogd zijn.</p>
+            <a href="aanmelden.html" class="btn-to-login">Aanmelden of inloggen →</a>
+          </div>
+        </div>`;
+      document.getElementById('sdots').innerHTML = '';
+      return;
+    }
+    user = u;
+    const nu = document.getElementById('nav-user');
+    if (nu) nu.textContent = u.email;
+    await loadFromFirestore();
+    renderAll();
+  });
+}
 
   // Toon e-mail in nav
   const nu = document.getElementById('nav-user');
