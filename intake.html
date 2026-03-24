@@ -203,6 +203,12 @@
 </div>
 
 <script type="module">
+  const embedded = new URLSearchParams(location.search).get('embedded') === 'true';
+if (embedded) {
+  document.querySelector('nav').style.display = 'none';
+  document.querySelector('.progress-outer').style.display = 'none';
+  document.querySelector('.intake-wrap').style.paddingTop = '1rem';
+}
 import { auth, db }          from './firebase-init.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { doc, getDoc, setDoc, serverTimestamp }
