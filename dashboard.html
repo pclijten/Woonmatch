@@ -612,10 +612,25 @@
     if (pageEl) pageEl.classList.add("active");
     if (navEl)  navEl.classList.add("active");
 
-    // Intake: verwijder main padding zodat iframe naadloos past
+// Intake: verwijder main padding en stuur user naar iframe
     const main = document.getElementById("main-content");
     if (page === "intake") {
       main.style.padding = "0";
+      const frame = document.getElementById("intake-frame");
+      const sendUser = () => {
+        if (!currentUser) return;
+        frame.contentWindow.postMessage({
+          type:  'NISTE_USER',
+          uid:   currentUser.uid,
+          email: currentUser.email,
+        }, window.location.origin);
+      };
+      // Frame kan al geladen zijn of nog niet
+      if (frame.contentDocument?.readyState === 'complete') {
+        sendUser();
+      } else {
+        frame.onload = sendUser;
+      }
     } else {
       main.style.padding = "";
     }
