@@ -393,7 +393,18 @@ export const QUESTIONS = [
   },
 
   // ══ STAP 4: Gevoel & beleving ════════════════════════════════════════════════
-
+{
+  id: 'buurt_type', step: 4, type: 'tiles', grid: 'g2',
+  sectionLabel: 'Type buurt',
+  options: [
+    { value: 'dorps', label: 'Dorps / rustig', icon: '🌳' },
+    { value: 'suburb', label: 'Woonwijk / gezin', icon: '🏘️' },
+    { value: 'stedelijk', label: 'Stedelijk / levendig', icon: '🏙️' },
+    { value: 'landelijk', label: 'Landelijk / vrij', icon: '🌾' },
+  ],
+  dbField: 'buurt_type', optional: true,
+},
+  
   {
     id: 'rust', step: 4, type: 'scale',
     sectionLabel: 'Beleving binnen',
@@ -503,6 +514,29 @@ export const QUESTIONS = [
     dbField: 'missing', optional: true,
   },
 
+  {
+  id: 'frictie_score', step: 4, type: 'scale',
+  sectionLabel: 'Mismatch',
+  label: 'Hoe goed past deze woning nog bij je leven?',
+  sublabel: 'Niet wat je hebt — maar hoe goed het nog klopt',
+  ends: ['Past totaal niet','Past perfect'],
+  dbField: 'frictie_score', optional: true,
+  },
+
+  {
+  id: 'trigger', step: 4, type: 'chips', multi: true,
+  sectionLabel: 'Wat zou jou doen verhuizen?',
+  options: [
+    'Als er iets beters voorbij komt',
+    'Als ik gelijkvloers kan wonen',
+    'Als onderhoud minder wordt',
+    'Als locatie beter is',
+    'Als het financieel aantrekkelijk is',
+    'Als gezinssituatie verandert',
+    'Ik wil sowieso verhuizen',
+  ],
+  dbField: 'trigger', optional: true,
+},
   // ══ STAP 5: Jouw situatie ════════════════════════════════════════════════════
 
   {
@@ -558,6 +592,13 @@ export const QUESTIONS = [
     endLabels: ['Zeker niet','Actief zoekend'],
     descriptions: ['Zeker niet verhuizen','Waarschijnlijk niet','Misschien, als het klopt','Open voor verhuizing','Actief op zoek'],
     dbField: 'verhuisbereidheid', optional: true,
+  },
+  {
+  id: 'woonlast_beleving', step: 5, type: 'scale',
+  sectionLabel: 'Financieel',
+  label: 'Hoe ervaar je je woonlasten?',
+  ends: ['Zeer zwaar','Goed betaalbaar'],
+  dbField: 'woonlast_beleving', optional: true,
   },
   {
     id: 'situatie_vrij', step: 5, type: 'textarea',
@@ -632,18 +673,35 @@ export const QUESTIONS = [
     dbField: 'redenen', optional: true,
   },
   {
+  id: 'tradeoff_ruimte_locatie', step: 6, type: 'scale',
+  sectionLabel: 'Wat vind je belangrijker?',
+  label: 'Grote van de woning woning vs betere locatie',
+  ends: ['Grote van de woning','Betere locatie'],
+  dbField: 'tradeoff_ruimte_locatie', optional: true,
+},
+  {
+  id: 'tradeoff_rust_voorzieningen', step: 6, type: 'scale',
+  label: 'Rust vs voorzieningen dichtbij',
+  ends: ['Rust en ruimte','Alles dichtbij'],
+  dbField: 'tradeoff_rust_voorzieningen', optional: true,
+},
+  {
+  id: 'tradeoff_onderhoud', step: 6, type: 'scale',
+  label: 'Nieuw/onderhoudsarm vs karakter/ruimte',
+  ends: ['Nieuw en makkelijk','Karakter en ruimte'],
+  dbField: 'tradeoff_onderhoud', optional: true,
+},
+  {
+  id: 'emotie_vs_ratio', step: 4, type: 'scale',
+  sectionLabel: 'Emotie vs ratio',
+  label: 'Als je eerlijk bent: blijf je hier uit gevoel of omdat het logisch is?',
+  ends: ['Puur praktisch','Puur gevoel'],
+  dbField: 'emotie_vs_ratio', optional: true,
+},
+  {
     id: 'opmerkingen', step: 6, type: 'textarea',
     sectionLabel: 'Aanvullende woonwensen (vrij veld, optioneel)',
     placeholder: 'Bijv. begane grond, dicht bij kleinkind, rustige straat, geen flat…',
     dbField: 'opmerkingen', optional: true,
   },
-  {
-  id: 'eigen_vraag',
-  step: 7,                    // welke stap (0–6)
-  type: 'chips',              // tile|chips|counter|toggle|scale|slider|textarea
-  sectionLabel: 'Mijn label',
-  options: ['Optie A', 'Optie B'],
-  dbField: 'eigen_vraag',     // exacte veldnaam in Firestore
-  optional: true,
-}
 ];
