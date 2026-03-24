@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -29,7 +28,7 @@
       min-height: 100vh;
     }
 
-    /* Loading state */
+    /* LOADING */
     #loading-screen {
       position: fixed; inset: 0;
       background: var(--cream);
@@ -91,7 +90,7 @@
     .btn-nav-logout:hover { border-color: var(--forest); color: var(--forest); }
 
     /* LAYOUT */
-    .page { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 60px); }
+    .page { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 62px); }
 
     /* SIDEBAR */
     .sidebar {
@@ -173,7 +172,7 @@
     }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.8s infinite; }
 
-    /* GRID */
+    /* STATS GRID */
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
     .stat-card {
       background: white; border-radius: 18px;
@@ -190,6 +189,18 @@
       font-size: .68rem; font-weight: 700;
       letter-spacing: .1em; text-transform: uppercase;
       color: var(--light); margin-top: .3rem;
+    }
+
+    /* PROGRESS BAR (completeness) */
+    .comp-bar-wrap { margin-top: .6rem; }
+    .comp-bar {
+      height: 5px; border-radius: 3px;
+      background: rgba(42,74,62,.1); overflow: hidden;
+    }
+    .comp-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--forest), var(--moss));
+      transition: width .7s cubic-bezier(.4,0,.2,1);
     }
 
     /* PROFILE FORM */
@@ -283,16 +294,7 @@
     }
     .btn-confirm-delete:hover { background: #a0502e; }
 
-    /* SPINNER */
-    .spinner {
-      display: inline-block; width: 14px; height: 14px;
-      border: 2px solid rgba(246,241,233,.35);
-      border-top-color: var(--cream); border-radius: 50%;
-      animation: spin .7s linear infinite; vertical-align: middle;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* TIMELINE (status page) */
+    /* TIMELINE */
     .timeline { list-style: none; margin-top: 1rem; }
     .tl-item {
       display: flex; gap: 1rem; padding-bottom: 1.5rem;
@@ -307,11 +309,15 @@
       display: flex; align-items: center; justify-content: center;
       font-size: .85rem; z-index: 1;
     }
-    .tl-icon.done { background: rgba(42,74,62,.15); }
-    .tl-icon.active { background: var(--forest); }
+    .tl-icon.done    { background: rgba(42,74,62,.15); }
+    .tl-icon.active  { background: var(--forest); color: var(--cream); font-weight: 700; }
     .tl-icon.pending { background: rgba(42,74,62,.06); border: 1.5px dashed rgba(42,74,62,.2); }
     .tl-text h4 { font-size: .88rem; font-weight: 700; color: var(--dark); margin-bottom: .2rem; }
     .tl-text p  { font-size: .78rem; color: var(--mid); line-height: 1.55; }
+
+    /* INTAKE IFRAME PAGE — geen eigen padding, iframe vult alles */
+    #page-intake { padding: 0; }
+    #page-intake.active { display: block; }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
@@ -344,7 +350,7 @@
 
 <div class="page">
 
-  <!-- SIDEBAR NAV -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <span class="sidebar-label">Menu</span>
     <button class="nav-item active" onclick="showPage('overview')" id="nav-overview">
@@ -353,9 +359,9 @@
     <button class="nav-item" onclick="showPage('status')" id="nav-status">
       <span class="nav-icon">📍</span> Mijn status
     </button>
-<button class="nav-item" onclick="showPage('intake')" id="nav-intake">
-  <span class="nav-icon">✏️</span> Profiel &amp; wensen
-</button>
+    <button class="nav-item" onclick="showPage('intake')" id="nav-intake">
+      <span class="nav-icon">✏️</span> Profiel &amp; wensen
+    </button>
 
     <span class="sidebar-label">Account</span>
     <a href="privacy.html" class="nav-item" target="_blank">
@@ -367,7 +373,7 @@
   </aside>
 
   <!-- MAIN -->
-  <main class="main">
+  <main class="main" id="main-content">
     <div class="msg-box" id="global-msg"></div>
 
     <!-- ── OVERVIEW PAGE ── -->
@@ -379,32 +385,37 @@
 
       <div class="stats-grid">
         <div class="stat-card">
+          <div class="stat-card-val" id="stat-completeness">—</div>
+          <div class="stat-card-lbl">Profiel volledigheid</div>
+          <div class="comp-bar-wrap">
+            <div class="comp-bar">
+              <div class="comp-bar-fill" id="comp-bar-fill" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
           <div class="stat-card-val">🟡</div>
-          <div class="stat-card-lbl">Status: In behandeling</div>
+          <div class="stat-card-lbl">Status aanmelding</div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-val">87%</div>
-          <div class="stat-card-lbl">Verwachte matchkans</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-val">2–6wk</div>
-          <div class="stat-card-lbl">Verwachte doorlooptijd</div>
+          <div class="stat-card-val">NB</div>
+          <div class="stat-card-lbl">Pilot regio 2026</div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-label">Jouw aanmelding</div>
-        <h3>We zijn aan het werk voor je 👋</h3>
-        <p>Je aanmelding voor de Niste pilot is ontvangen. Ons team bekijkt jouw profiel en koppelt je aan geschikte matches in Noord-Brabant. Je hoort van ons binnen 5 werkdagen.</p>
+        <h3>Welkom bij de Niste pilot 👋</h3>
+        <p>Je aanmelding is ontvangen. We zijn actief profielen aan het verzamelen in Noord-Brabant. Zodra er een anoniem profiel in jouw regio verschijnt dat bij jou past, ontvang je een e-mail. <strong>Pilotfase:</strong> dit kan enige tijd duren afhankelijk van het aantal aanmeldingen in jouw buurt.</p>
         <div style="margin-top:1.2rem">
-          <span class="status-badge pending"><span class="status-dot"></span> In behandeling</span>
+          <span class="status-badge pending"><span class="status-dot"></span> Pilot actief</span>
         </div>
       </div>
 
       <div class="card">
         <div class="card-label">Volgende stap</div>
-        <h3>Vul je woonwensen in</h3>
-        <p>Hoe meer we weten, hoe beter we kunnen matchen. Vul je profiel en voorkeuren in om de kans op een goede match te vergroten.</p>
+        <h3>Vul je woonprofiel in</h3>
+        <p>Hoe meer we weten over jouw woning en woonwensen, hoe beter we kunnen matchen. Je kunt altijd stoppen en later verder gaan — alles wordt automatisch opgeslagen.</p>
         <div style="margin-top:1.2rem">
           <button class="btn-primary" onclick="showPage('intake')">Profiel invullen →</button>
         </div>
@@ -425,157 +436,48 @@
             <div class="tl-icon done">✓</div>
             <div class="tl-text">
               <h4>Account aangemaakt</h4>
-              <p>Je bent succesvol geregistreerd voor de Niste pilot Noord-Brabant 2025.</p>
+              <p>Je bent succesvol geregistreerd voor de Niste pilot Noord-Brabant 2026.</p>
             </div>
           </li>
           <li class="tl-item">
             <div class="tl-icon active">2</div>
             <div class="tl-text">
-              <h4>Profiel beoordeling</h4>
-              <p>Ons team bekijkt je wensen en huidige woonsituatie. Dit duurt 2–5 werkdagen.</p>
+              <h4>Profiel opbouwen</h4>
+              <p>We verzamelen profielen in jouw regio. Hoe vollediger jouw profiel, hoe beter we kunnen matchen. Vul je woonprofiel in via "Profiel &amp; wensen".</p>
             </div>
           </li>
           <li class="tl-item">
             <div class="tl-icon pending"></div>
             <div class="tl-text">
-              <h4>Matchgesprek</h4>
-              <p>We nemen persoonlijk contact op voor een kennismakingsgesprek en eerste matches.</p>
+              <h4>Eerste anonieme match</h4>
+              <p>Zodra er een huishouden in jouw buurt is met een complementair profiel, ontvang je een anonieme melding per e-mail. Identiteiten blijven verborgen.</p>
             </div>
           </li>
           <li class="tl-item">
             <div class="tl-icon pending"></div>
             <div class="tl-text">
-              <h4>Match gevonden</h4>
-              <p>Je wordt gekoppeld aan woningzoekenden die passen bij jouw situatie en wensen.</p>
+              <h4>Wederzijdse interesse</h4>
+              <p>Pas als beide partijen aangeven dat ze openstaan voor contact, wordt een kennismaking mogelijk gemaakt.</p>
             </div>
           </li>
           <li class="tl-item">
             <div class="tl-icon pending"></div>
             <div class="tl-text">
-              <h4>Verhuizing geregeld</h4>
-              <p>Niste begeleidt je bij de verdere stappen tot sleuteloverdracht.</p>
+              <h4>Volgende stappen</h4>
+              <p>Niste is een platform — verdere stappen (makelaar, overdracht) worden door de betrokkenen zelf ingevuld. Wij faciliteren de ontmoeting.</p>
             </div>
           </li>
         </ul>
       </div>
     </div>
 
-    <!-- ── PROFILE PAGE ── -->
-    <div class="dash-page" id="page-profile">
-      <div class="page-header">
-        <div class="page-eyebrow">Jouw gegevens</div>
-        <h1 class="page-title">Profiel &amp; <em>wensen</em></h1>
-      </div>
-<!-- ── INTAKE PAGE ── -->
-<div class="dash-page" id="page-intake">
-  <iframe 
-    src="intake.html" 
-    style="width:100%; height:calc(100vh - 120px); border:none; border-radius:20px; display:block;">
-  </iframe>
-</div>
-      
-      <div class="msg-box" id="profile-msg"></div>
-
-      <div class="card">
-        <div class="card-label">Persoonlijke gegevens</div>
-        <div class="form-grid" style="margin-top:.8rem">
-          <div class="field">
-            <label>Volledige naam</label>
-            <input type="text" id="pref-name" placeholder="Jan de Vries">
-          </div>
-          <div class="field">
-            <label>E-mailadres (niet aanpasbaar)</label>
-            <input type="email" id="pref-email" disabled style="opacity:.5;cursor:not-allowed">
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-label">Huidige woonsituatie</div>
-        <div class="form-grid" style="margin-top:.8rem">
-          <div class="field">
-            <label>Huidige woning (type)</label>
-            <select id="pref-current-type">
-              <option value="">Kies type woning</option>
-              <option>Vrijstaande woning</option>
-              <option>Twee-onder-een-kap</option>
-              <option>Rijtjeswoning</option>
-              <option>Appartement</option>
-              <option>Bungalow</option>
-              <option>Boerderij / landelijk</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Aantal kamers</label>
-            <select id="pref-current-rooms">
-              <option value="">Kies aantal</option>
-              <option>1 kamer</option>
-              <option>2 kamers</option>
-              <option>3 kamers</option>
-              <option>4 kamers</option>
-              <option>5 kamers</option>
-              <option>6+ kamers</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Woonoppervlak (m²)</label>
-            <input type="number" id="pref-current-m2" placeholder="bijv. 140">
-          </div>
-          <div class="field">
-            <label>Locatie / gemeente</label>
-            <input type="text" id="pref-current-location" placeholder="bijv. Aarle-Rixtel">
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-label">Jouw droomwoning</div>
-        <div class="form-grid" style="margin-top:.8rem">
-          <div class="field">
-            <label>Gewenst type woning</label>
-            <select id="pref-wish-type">
-              <option value="">Kies type woning</option>
-              <option>Vrijstaande woning</option>
-              <option>Twee-onder-een-kap</option>
-              <option>Rijtjeswoning</option>
-              <option>Appartement</option>
-              <option>Bungalow</option>
-              <option>Gelijkvloers / nultredenwoning</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Gewenst aantal kamers</label>
-            <select id="pref-wish-rooms">
-              <option value="">Kies aantal</option>
-              <option>1–2 kamers</option>
-              <option>2–3 kamers</option>
-              <option>3–4 kamers</option>
-              <option>4+ kamers</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Gewenste regio / gemeente</label>
-            <input type="text" id="pref-wish-location" placeholder="bijv. Veghel, Laarbeek">
-          </div>
-          <div class="field">
-            <label>Wanneer wil je verhuizen?</label>
-            <select id="pref-timeline">
-              <option value="">Kies periode</option>
-              <option>Zo snel mogelijk (binnen 3 maanden)</option>
-              <option>Binnen 6 maanden</option>
-              <option>Binnen 1 jaar</option>
-              <option>Oriënterend — nog geen deadline</option>
-            </select>
-          </div>
-          <div class="field full">
-            <label>Extra wensen of bijzonderheden</label>
-            <textarea id="pref-notes" placeholder="Bijv. gelijkvloers, dichtbij voorzieningen, grote tuin, mantelzorg…"></textarea>
-          </div>
-        </div>
-        <div style="margin-top:1.4rem;display:flex;gap:.8rem;flex-wrap:wrap">
-          <button class="btn-primary" onclick="savePreferences()">Opslaan</button>
-        </div>
-      </div>
+    <!-- ── INTAKE PAGE — iframe, geen eigen padding ── -->
+    <div class="dash-page" id="page-intake">
+      <iframe
+        src="intake.html?embedded=true"
+        id="intake-frame"
+        style="width:100%; height:calc(100vh - 62px); border:none; display:block;">
+      </iframe>
     </div>
 
   </main>
@@ -585,7 +487,7 @@
 <div class="modal-overlay" id="delete-modal">
   <div class="modal-box">
     <h3>Account verwijderen?</h3>
-    <p>Dit verwijdert je account én alle bijbehorende gegevens permanent. Deze actie kan niet ongedaan worden gemaakt.</p>
+    <p>Dit verwijdert je account én alle bijbehorende gegevens permanent uit onze systemen. Jouw woonprofiel en eventuele matches worden volledig gewist. Deze actie kan niet ongedaan worden gemaakt.</p>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeDeleteModal()">Annuleren</button>
       <button class="btn-confirm-delete" onclick="handleDeleteAccount()">Ja, verwijder alles</button>
@@ -595,14 +497,14 @@
 
 <!-- FIREBASE v10 -->
 <script type="module">
-  import { initializeApp }                        from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+  import { initializeApp }           from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
   import { getAuth, signOut, deleteUser,
            GoogleAuthProvider, signInWithPopup,
-           onAuthStateChanged }                   from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc,
-           updateDoc, deleteDoc, collection,
-           query, where, getDocs,
-           serverTimestamp }                      from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+           onAuthStateChanged }      from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc,
+           setDoc, deleteDoc,
+           collection, query, where,
+           getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey:            "AIzaSyDkrkHrPW4pPu0_ZVKGma-AVF4-gTtk9R8",
@@ -611,125 +513,85 @@
     storageBucket:     "niste-1113e.firebasestorage.app",
     messagingSenderId: "292138618317",
     appId:             "1:292138618317:web:50984a6bff31725d6a0884",
-    measurementId:     "G-G76HYMMP86"
   };
 
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db   = getFirestore(app);
-  let   currentUser = null;
-  let   userData    = null;
+  let currentUser = null;
+  let userData    = null;
 
-  // ── AUTH GUARD ─────────────────────────────────────────────────────────────
-  // Als niet ingelogd → terug naar index
+  // ── AUTH GUARD ──────────────────────────────────────────────────────────────
   onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = "index.html";
-      return;
-    }
+    if (!user) { window.location.href = "index.html"; return; }
     currentUser = user;
     await loadUserData(user);
     document.getElementById("loading-screen").style.display = "none";
   });
 
   async function loadUserData(user) {
+    // Laad gebruikersnaam uit /users
     try {
       const snap = await getDoc(doc(db, "users", user.uid));
-      userData = snap.exists() ? snap.data() : { name: user.displayName || "Gebruiker", email: user.email };
+      userData = snap.exists()
+        ? snap.data()
+        : { name: user.displayName || "Gebruiker", email: user.email };
     } catch {
       userData = { name: user.displayName || "Gebruiker", email: user.email };
     }
 
     const name  = userData.name  || "Gebruiker";
     const email = userData.email || user.email;
-    const prefs = userData.preferences || {};
 
-    // Nav
+    // Nav + welkomsttekst
     document.getElementById("nav-name").textContent     = name;
     document.getElementById("nav-avatar").textContent   = name.charAt(0).toUpperCase();
     document.getElementById("welcome-name").textContent = name.split(" ")[0];
 
-    // Profile form
-    document.getElementById("pref-name").value          = name;
-    document.getElementById("pref-email").value         = email;
-    document.getElementById("pref-current-type").value  = prefs.currentType     || "";
-    document.getElementById("pref-current-rooms").value = prefs.currentRooms    || "";
-    document.getElementById("pref-current-m2").value    = prefs.currentM2       || "";
-    document.getElementById("pref-current-location").value = prefs.currentLocation || "";
-    document.getElementById("pref-wish-type").value     = prefs.wishType        || "";
-    document.getElementById("pref-wish-rooms").value    = prefs.wishRooms       || "";
-    document.getElementById("pref-wish-location").value = prefs.wishLocation    || "";
-    document.getElementById("pref-timeline").value      = prefs.timeline        || "";
-    document.getElementById("pref-notes").value         = prefs.notes           || "";
+    // Laad volledigheid uit /households
+    try {
+      const hSnap = await getDoc(doc(db, "households", user.uid));
+      if (hSnap.exists()) {
+        const pct = hSnap.data()._completeness;
+        if (pct !== undefined) {
+          document.getElementById("stat-completeness").textContent = pct + "%";
+          document.getElementById("comp-bar-fill").style.width = pct + "%";
+        }
+      }
+    } catch { /* geen huishoud-doc aanwezig, stilletjes negeren */ }
   }
 
-  // ── SAVE PREFERENCES ───────────────────────────────────────────────────────
-  window.savePreferences = async () => {
-    clearMsg("profile-msg");
-    const prefs = {
-      currentType:     document.getElementById("pref-current-type").value,
-      currentRooms:    document.getElementById("pref-current-rooms").value,
-      currentM2:       document.getElementById("pref-current-m2").value,
-      currentLocation: document.getElementById("pref-current-location").value,
-      wishType:        document.getElementById("pref-wish-type").value,
-      wishRooms:       document.getElementById("pref-wish-rooms").value,
-      wishLocation:    document.getElementById("pref-wish-location").value,
-      timeline:        document.getElementById("pref-timeline").value,
-      notes:           document.getElementById("pref-notes").value
-    };
-    const newName = document.getElementById("pref-name").value.trim();
-
-    try {
-      await setDoc(doc(db, "users", currentUser.uid), {
-        ...userData,
-        name:        newName || userData.name,
-        preferences: prefs,
-        updatedAt:   serverTimestamp()
-      }, { merge: true });
-      showMsg("profile-msg", "✓ Opgeslagen!", "success");
-      // Update nav name
-      document.getElementById("nav-name").textContent     = newName || userData.name;
-      document.getElementById("nav-avatar").textContent   = (newName || userData.name).charAt(0).toUpperCase();
-      document.getElementById("welcome-name").textContent = (newName || userData.name).split(" ")[0];
-    } catch (e) {
-      showMsg("profile-msg", "Opslaan mislukt. Probeer opnieuw.", "error");
-    }
-  };
-
-  // ── GOOGLE RE-AUTH (needed before deleteAccount if Google user) ────────────
-  window.reauthWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-  };
-
-  // ── LOGOUT ─────────────────────────────────────────────────────────────────
+  // ── LOGOUT ──────────────────────────────────────────────────────────────────
   window.handleLogout = async () => {
     await signOut(auth);
     window.location.href = "index.html";
   };
 
-  // ── DELETE ACCOUNT ─────────────────────────────────────────────────────────
+  // ── DELETE ACCOUNT ──────────────────────────────────────────────────────────
   window.handleDeleteAccount = async () => {
     closeDeleteModal();
     if (!currentUser) return;
     try {
+      // Verwijder Firestore data
       await deleteDoc(doc(db, "users", currentUser.uid));
-      const matchQ    = query(collection(db, "matches"), where("userId", "==", currentUser.uid));
-      const matchSnap = await getDocs(matchQ);
-      await Promise.all(matchSnap.docs.map(m => deleteDoc(m.ref)));
+      await deleteDoc(doc(db, "households", currentUser.uid));
+      // Verwijder matches
+      const mq   = query(collection(db, "matches"), where("userId", "==", currentUser.uid));
+      const msnap = await getDocs(mq);
+      await Promise.all(msnap.docs.map(m => deleteDoc(m.ref)));
+      // Verwijder Auth account
       await deleteUser(currentUser);
       window.location.href = "index.html";
     } catch (e) {
       if (e.code === "auth/requires-recent-login") {
-        // Probeer Google re-auth als de user via Google is ingelogd
         const isGoogle = currentUser.providerData.some(p => p.providerId === "google.com");
         if (isGoogle) {
           try {
-            await reauthWithGoogle();
+            await signInWithPopup(auth, new GoogleAuthProvider());
             await deleteUser(currentUser);
             window.location.href = "index.html";
           } catch {
-            showMsg("global-msg", "Re-authenticatie mislukt. Log uit en opnieuw in, en probeer dan opnieuw.", "error");
+            showMsg("global-msg", "Re-authenticatie mislukt. Log uit en opnieuw in, en probeer het dan opnieuw.", "error");
           }
         } else {
           showMsg("global-msg", "Log uit en opnieuw in, en probeer dan opnieuw te verwijderen.", "error");
@@ -740,32 +602,47 @@
     }
   };
 
-  // ── PAGE NAV ───────────────────────────────────────────────────────────────
+  // ── PAGE NAV ────────────────────────────────────────────────────────────────
   window.showPage = (page) => {
     document.querySelectorAll(".dash-page").forEach(p => p.classList.remove("active"));
     document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
-    document.getElementById(`page-${page}`).classList.add("active");
-    const navBtn = document.getElementById(`nav-${page}`);
-    if (navBtn) navBtn.classList.add("active");
-    clearMsg("profile-msg"); clearMsg("global-msg");
+
+    const pageEl = document.getElementById(`page-${page}`);
+    const navEl  = document.getElementById(`nav-${page}`);
+    if (pageEl) pageEl.classList.add("active");
+    if (navEl)  navEl.classList.add("active");
+
+    // Intake: verwijder main padding zodat iframe naadloos past
+    const main = document.getElementById("main-content");
+    if (page === "intake") {
+      main.style.padding = "0";
+    } else {
+      main.style.padding = "";
+    }
+
+    clearMsg("global-msg");
   };
 
-  // ── MODAL ──────────────────────────────────────────────────────────────────
+  // ── MODAL ───────────────────────────────────────────────────────────────────
   window.openDeleteModal  = () => document.getElementById("delete-modal").classList.add("open");
   window.closeDeleteModal = () => document.getElementById("delete-modal").classList.remove("open");
   document.getElementById("delete-modal").addEventListener("click", e => {
     if (e.target === e.currentTarget) closeDeleteModal();
   });
 
-  // ── HELPERS ────────────────────────────────────────────────────────────────
+  // ── HELPERS ─────────────────────────────────────────────────────────────────
   function showMsg(id, text, type = "error") {
     const el = document.getElementById(id);
-    el.textContent = text; el.className = `msg-box ${type}`;
+    if (!el) return;
+    el.textContent = text;
+    el.className   = `msg-box ${type}`;
     if (type === "success") setTimeout(() => clearMsg(id), 4000);
   }
   function clearMsg(id) {
     const el = document.getElementById(id);
-    el.textContent = ""; el.className = "msg-box";
+    if (!el) return;
+    el.textContent = "";
+    el.className   = "msg-box";
   }
 </script>
 </body>
