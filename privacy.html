@@ -1,263 +1,690 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacyverklaring – Niste</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacyverklaring – Niste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:#F6F1E9; --warm:#EDE5D4; --forest:#2A4A3E;
+      --moss:#3D6B5C; --gold:#C49A4A; --gold-lt:#E8C97A;
+      --rust:#B85C38; --dark:#1A1A16; --mid:#5A5A50; --light:#9A9A8E;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--cream); color:var(--dark); line-height:1.75; }
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    /* ── HERO ── */
+    .hero {
+      background: var(--forest);
+      padding: 7rem 3rem 5rem;
+      position: relative; overflow: hidden; text-align: center;
+    }
+    .blob { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
+    .blob-1 { width:500px;height:500px;background:rgba(196,154,74,.12);top:-15%;left:50%;transform:translateX(-50%); }
+    .blob-2 { width:300px;height:300px;background:rgba(61,107,92,.4);bottom:-5%;right:5%; }
+    .blob-3 { width:250px;height:250px;background:rgba(61,107,92,.35);bottom:-5%;left:5%; }
+    .hero-pill {
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(246,241,233,.1);border:1px solid rgba(246,241,233,.15);
+      border-radius:100px;padding:.35rem .9rem;
+      font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:rgba(246,241,233,.6);margin-bottom:2rem;position:relative;z-index:1;
+    }
+    .hero-dot { width:6px;height:6px;border-radius:50%;background:var(--gold); }
+    .hero h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2.4rem,5vw,4.5rem);font-weight:300;line-height:1.08;
+      color:var(--cream);max-width:780px;margin:0 auto 1.4rem;position:relative;z-index:1;
+    }
+    .hero h1 em { font-style:italic;color:var(--gold-lt); }
+    .hero-lead {
+      font-size:.98rem;line-height:1.8;color:rgba(246,241,233,.65);
+      max-width:600px;margin:0 auto 2.5rem;position:relative;z-index:1;
+    }
+    .hero-meta {
+      display:inline-flex;align-items:center;gap:1.5rem;flex-wrap:wrap;justify-content:center;
+      position:relative;z-index:1;
+      padding-top:2rem;border-top:1px solid rgba(246,241,233,.1);
+    }
+    .hero-meta-item { font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,241,233,.4); }
+    .hero-meta-item strong { color:rgba(246,241,233,.7);display:block;font-size:.8rem; }
 
-<style>
-:root {
-  --cream:  #F6F1E9;
-  --forest: #2A4A3E;
-  --gold:   #C49A4A;
-  --dark:   #1A1A16;
-  --mid:    #5A5A50;
-}
+    /* ── LAYOUT ── */
+    .page-wrap { max-width:1100px;margin:0 auto;padding:5rem 3rem; display:grid;grid-template-columns:260px 1fr;gap:4rem;align-items:start; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── TOC ── */
+    .toc { position:sticky;top:7rem; }
+    .toc-title { font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--light);margin-bottom:1.2rem; }
+    .toc-list { list-style:none;display:flex;flex-direction:column;gap:.3rem; }
+    .toc-list a {
+      display:flex;align-items:center;gap:.65rem;
+      text-decoration:none;padding:.5rem .75rem;border-radius:10px;
+      font-size:.8rem;font-weight:600;color:var(--mid);
+      transition:background .15s,color .15s;
+    }
+    .toc-list a:hover { background:rgba(42,74,62,.07);color:var(--forest); }
+    .toc-list a.active { background:rgba(42,74,62,.08);color:var(--forest); }
+    .toc-num { font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--gold);width:18px;text-align:right;flex-shrink:0; }
 
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: var(--cream);
-  color: var(--dark);
-  line-height: 1.7;
-  overflow-x: hidden;
-}
+    .toc-ap-box {
+      margin-top:2rem;background:white;border:1px solid rgba(42,74,62,.08);
+      border-radius:16px;padding:1.2rem;
+    }
+    .toc-ap-label { font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--light);margin-bottom:.5rem; }
+    .toc-ap-text { font-size:.76rem;line-height:1.6;color:var(--mid); }
+    .toc-ap-text a { color:var(--forest);text-decoration:underline; }
 
-/* NAV */
-nav {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:1rem 1.5rem;
-  background:white;
-}
+    /* ── PROSE ── */
+    .prose { border-left:1px solid rgba(42,74,62,.1);padding-left:3.5rem; }
 
-.nav-logo {
-  font-family:'Cormorant Garamond', serif;
-  font-size:1.6rem;
-  color:var(--forest);
-  text-decoration:none;
-}
+    .art { margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid rgba(42,74,62,.07); }
+    .art:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
 
-.nav-back {
-  font-size:.8rem;
-  text-decoration:none;
-  color:var(--mid);
-}
+    .art-eyebrow {
+      display:inline-flex;align-items:center;gap:.4rem;
+      font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:.8rem;
+    }
+    .art-eyebrow-line { width:20px;height:1px;background:var(--gold);opacity:.6; }
 
-/* HERO */
-.page-hero {
-  background:var(--forest);
-  color:white;
-  padding:3rem 1.5rem;
-}
+    .art h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:300;line-height:1.15;
+      color:var(--dark);margin-bottom:1rem;
+    }
+    .art h2 em { font-style:italic;color:var(--forest); }
 
-.hero-title {
-  font-family:'Cormorant Garamond', serif;
-  font-size:2.5rem;
-  font-weight:300;
-}
+    .art p { font-size:.9rem;line-height:1.85;color:var(--mid);margin-bottom:.9rem; }
+    .art p:last-child { margin-bottom:0; }
+    .art p strong { color:var(--dark);font-weight:700; }
 
-/* LAYOUT */
-.page-body {
-  padding:2rem 1.5rem;
-  max-width:700px;
-  margin:auto;
-}
+    /* ── DATA TABLE ── */
+    .data-table { width:100%;border-collapse:collapse;margin:1.5rem 0; }
+    .data-table th {
+      text-align:left;padding:.7rem 1rem;
+      font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--light);border-bottom:1px solid rgba(42,74,62,.1);
+      background:rgba(42,74,62,.03);
+    }
+    .data-table td {
+      padding:.85rem 1rem;font-size:.84rem;color:var(--mid);
+      border-bottom:1px solid rgba(42,74,62,.05);vertical-align:top;
+    }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table tr:hover td { background:rgba(42,74,62,.02); }
+    .data-table td:first-child { color:var(--dark);font-weight:600; }
 
-/* SECTIONS */
-.section {
-  margin-bottom:3rem;
-}
+    .badge {
+      display:inline-block;border-radius:100px;padding:.18rem .6rem;
+      font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    }
+    .badge-green { background:rgba(42,74,62,.1);color:var(--forest); }
+    .badge-gold  { background:rgba(196,154,74,.12);color:var(--gold); }
+    .badge-rust  { background:rgba(184,92,56,.1);color:var(--rust); }
 
-.section h2 {
-  font-family:'Cormorant Garamond';
-  font-size:1.5rem;
-  margin-bottom:1rem;
-}
+    /* ── RECHTEN GRID ── */
+    .rights-grid { display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0; }
+    .right-card {
+      background:white;border:1px solid rgba(42,74,62,.07);border-radius:14px;
+      padding:1.2rem;transition:transform .2s,box-shadow .2s;
+    }
+    .right-card:hover { transform:translateY(-3px);box-shadow:0 8px 24px rgba(42,74,62,.09); }
+    .right-icon { font-size:1.2rem;margin-bottom:.5rem; }
+    .right-title { font-size:.82rem;font-weight:700;color:var(--dark);margin-bottom:.3rem; }
+    .right-body { font-size:.76rem;line-height:1.6;color:var(--mid); }
+    .right-ref { font-size:.65rem;color:var(--light);margin-top:.4rem;font-style:italic; }
 
-.section p {
-  font-size:.95rem;
-  color:var(--mid);
-  margin-bottom:1rem;
-}
+    /* ── INFO BOX ── */
+    .info-box {
+      display:flex;gap:.8rem;align-items:flex-start;
+      padding:1rem 1.2rem;border-radius:12px;margin:1.2rem 0;
+    }
+    .info-box.green { background:rgba(42,74,62,.06);border:1px solid rgba(42,74,62,.12); }
+    .info-box.gold  { background:rgba(196,154,74,.08);border:1px solid rgba(196,154,74,.18); }
+    .info-box.rust  { background:rgba(184,92,56,.06);border:1px solid rgba(184,92,56,.15); }
+    .info-icon { font-size:1rem;flex-shrink:0;margin-top:.1rem; }
+    .info-text { font-size:.82rem;line-height:1.65;color:var(--mid); }
+    .info-text strong { color:var(--dark);font-weight:700; }
+    .info-box.rust .info-text { color:var(--rust); }
+    .info-box.rust .info-text strong { color:var(--rust); }
 
-/* LIST */
-ul {
-  list-style:none;
-}
+    /* ── CONTACT BOX ── */
+    .contact-box {
+      background:var(--forest);border-radius:20px;padding:2rem;margin-top:1.5rem;
+    }
+    .contact-box h3 {
+      font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;
+      color:var(--cream);margin-bottom:1rem;
+    }
+    .contact-row {
+      display:flex;gap:.75rem;align-items:flex-start;
+      padding:.7rem 0;border-bottom:1px solid rgba(246,241,233,.08);
+    }
+    .contact-row:last-child { border-bottom:none; }
+    .contact-label { font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,241,233,.35);width:80px;flex-shrink:0;padding-top:.1rem; }
+    .contact-val { font-size:.84rem;color:rgba(246,241,233,.7);line-height:1.5; }
+    .contact-val a { color:var(--gold-lt);text-decoration:underline; }
 
-li {
-  padding:.6rem 0;
-  border-bottom:1px solid rgba(0,0,0,.05);
-  font-size:.9rem;
-}
+    /* ── AP BOX ── */
+    .ap-box {
+      background:var(--warm);border:1px solid rgba(42,74,62,.12);border-radius:16px;
+      padding:1.5rem;margin-top:1.5rem;
+    }
+    .ap-box h4 { font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--dark);margin-bottom:.5rem; }
+    .ap-box p  { font-size:.82rem;line-height:1.7;color:var(--mid); }
+    .ap-box a  { color:var(--forest);text-decoration:underline; }
 
-/* CARD */
-.card {
-  background:white;
-  padding:1.2rem;
-  border-radius:12px;
-  margin-top:1rem;
-}
+    /* ── VERSION BANNER ── */
+    .version-banner {
+      background:rgba(42,74,62,.05);border-bottom:1px solid rgba(42,74,62,.08);
+      padding:.6rem 3rem;display:flex;align-items:center;gap:.6rem;
+      font-size:.72rem;color:var(--light);
+    }
+    .version-dot { width:6px;height:6px;border-radius:50%;background:var(--moss); }
 
-/* RIGHTS */
-.rights {
-  display:grid;
-  gap:10px;
-}
+    /* ── FOOTER ── */
+    footer { background:var(--dark);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap; }
+    .f-logo { font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:rgba(246,241,233,.7);text-decoration:none; }
+    .f-meta { font-size:.72rem;color:rgba(246,241,233,.3);line-height:1.6; }
+    .f-nav  { display:flex;gap:1.4rem; }
+    .f-nav a { font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,241,233,.3);text-decoration:none;transition:color .2s; }
+    .f-nav a:hover,.f-nav a.cur { color:rgba(246,241,233,.6); }
 
-.right {
-  background:white;
-  padding:1rem;
-  border-radius:10px;
-}
-
-/* CONTACT */
-.contact {
-  background:var(--forest);
-  color:white;
-  padding:1.5rem;
-  border-radius:12px;
-}
-
-.contact a {
-  color:#E8C97A;
-  text-decoration:none;
-}
-
-/* DESKTOP */
-@media (min-width:900px){
-
-  .page-body {
-    display:grid;
-    grid-template-columns:250px 1fr;
-    gap:40px;
-    max-width:1100px;
-  }
-
-  .toc {
-    position:sticky;
-    top:100px;
-  }
-
-  .prose {
-    border-left:1px solid rgba(0,0,0,.1);
-    padding-left:30px;
-  }
-
-  .rights {
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-</style>
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .page-wrap { grid-template-columns:1fr;padding:3rem 1.4rem;gap:0; }
+      .toc { display:none; }
+      .prose { border-left:none;padding-left:0; }
+      .hero { padding:5rem 1.4rem 4rem; }
+      .rights-grid { grid-template-columns:1fr; }
+      .version-banner { padding:.6rem 1.4rem; }
+      footer { padding:2rem 1.4rem; }
+      .f-nav { display:none; }
+    }
+  </style>
 </head>
-
 <body>
+
 <div id="nav-root"></div>
-<nav>
-  <a href="index.html" class="nav-logo">niste</a>
-  <a href="index.html" class="nav-back">← terug</a>
-</nav>
 
-<div class="page-hero">
-  <h1 class="hero-title">Privacyverklaring Niste</h1>
+<!-- VERSION BANNER -->
+<div class="version-banner">
+  <span class="version-dot"></span>
+  Versie 1.2 · Laatste wijziging: maart 2026 · Van toepassing op: niste.nl en alle subdomeinen
 </div>
 
-<div class="page-body">
-
-  <!-- TOC -->
-  <div class="toc">
-    <p><b>Inhoud</b></p>
-    <p>1. Wie zijn wij</p>
-    <p>2. Data</p>
-    <p>3. Doel</p>
-    <p>4. Opslag</p>
-    <p>5. Rechten</p>
-    <p>6. Cookies</p>
-    <p>7. Derden</p>
-    <p>8. Bewaren</p>
-    <p>9. Contact</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+  <div class="hero-pill"><span class="hero-dot"></span>AVG-conform · Artikel 13 &amp; 14 GDPR · Autoriteit Persoonsgegevens</div>
+  <h1>Privacyverklaring<br><em>Niste</em></h1>
+  <p class="hero-lead">Deze verklaring legt uit welke persoonsgegevens Niste verwerkt, op welke rechtsgrond, voor welk doel en hoe lang. U heeft als betrokkene rechten die wij hier volledig toelichten.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>Verwerkingsverantwoordelijke</strong>Niste (pilot-fase)</div>
+    <div class="hero-meta-item"><strong>Toepasselijk recht</strong>AVG / GDPR (EU 2016/679)</div>
+    <div class="hero-meta-item"><strong>Toezichthouder</strong>Autoriteit Persoonsgegevens (NL)</div>
+    <div class="hero-meta-item"><strong>Versiedatum</strong>Maart 2026</div>
   </div>
+</section>
 
-  <!-- CONTENT -->
-  <div class="prose">
+<!-- LAYOUT -->
+<div class="page-wrap">
 
-    <div class="section">
-      <h2>1. Wie zijn wij</h2>
-      <p>Niste is een platform voor slimme woningmobiliteit.</p>
+  <!-- INHOUDSOPGAVE -->
+  <nav class="toc" aria-label="Inhoudsopgave privacy">
+    <div class="toc-title">Inhoudsopgave</div>
+    <ul class="toc-list">
+      <li><a href="#art1"><span class="toc-num">1</span>Verwerkingsverantwoordelijke</a></li>
+      <li><a href="#art2"><span class="toc-num">2</span>Welke persoonsgegevens</a></li>
+      <li><a href="#art3"><span class="toc-num">3</span>Doel &amp; rechtsgrond</a></li>
+      <li><a href="#art4"><span class="toc-num">4</span>Ontvangers &amp; derden</a></li>
+      <li><a href="#art5"><span class="toc-num">5</span>Doorgifte buiten EER</a></li>
+      <li><a href="#art6"><span class="toc-num">6</span>Bewaartermijnen</a></li>
+      <li><a href="#art7"><span class="toc-num">7</span>Uw rechten (AVG)</a></li>
+      <li><a href="#art8"><span class="toc-num">8</span>Geautomatiseerde besluiten</a></li>
+      <li><a href="#art9"><span class="toc-num">9</span>Beveiliging</a></li>
+      <li><a href="#art10"><span class="toc-num">10</span>Cookies &amp; tracking</a></li>
+      <li><a href="#art11"><span class="toc-num">11</span>Wijzigingen</a></li>
+      <li><a href="#art12"><span class="toc-num">12</span>Contact &amp; klachten</a></li>
+    </ul>
 
-      <div class="card">
-        <p>Email: info@niste.nl</p>
-        <p>Regio: Nederland</p>
-      </div>
+    <div class="toc-ap-box">
+      <div class="toc-ap-label">Toezichthouder</div>
+      <p class="toc-ap-text">Klachten kunnen worden ingediend bij de <strong>Autoriteit Persoonsgegevens</strong>.<br>
+      <a href="https://www.autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons" target="_blank" rel="noopener">autoriteitpersoonsgegevens.nl</a></p>
     </div>
+  </nav>
 
-    <div class="section">
-      <h2>2. Welke data</h2>
-      <ul>
-        <li>Naam</li>
-        <li>Email</li>
-        <li>Woninggegevens</li>
-      </ul>
-    </div>
+  <!-- PROSE -->
+  <main class="prose">
 
-    <div class="section">
-      <h2>3. Doeleinden</h2>
-      <ul>
-        <li>Matching</li>
-        <li>Communicatie</li>
-      </ul>
-    </div>
+    <!-- ART 1 -->
+    <article class="art" id="art1">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 1</div>
+      <h2>Verwerkings­<em>verantwoordelijke</em></h2>
+      <p>De verwerkingsverantwoordelijke in de zin van artikel 4 lid 7 AVG is de natuurlijke persoon of rechtspersoon die het doel en de middelen van de verwerking van persoonsgegevens vaststelt. Voor dit platform is dat:</p>
 
-    <div class="section">
-      <h2>4. Opslag</h2>
-      <p>Data wordt opgeslagen in Firebase.</p>
-    </div>
-
-    <div class="section">
-      <h2>5. Jouw rechten</h2>
-
-      <div class="rights">
-        <div class="right">Inzage</div>
-        <div class="right">Correctie</div>
-        <div class="right">Verwijdering</div>
-        <div class="right">Bezwaar</div>
-      </div>
-
-    </div>
-
-    <div class="section">
-      <h2>6. Cookies</h2>
-      <p>Alleen functionele cookies.</p>
-    </div>
-
-    <div class="section">
-      <h2>7. Derden</h2>
-      <p>Alleen Firebase.</p>
-    </div>
-
-    <div class="section">
-      <h2>8. Bewaartermijnen</h2>
-      <p>Tot account wordt verwijderd.</p>
-    </div>
-
-    <div class="section">
-      <h2>9. Contact</h2>
-
-      <div class="contact">
-        <p>Email: <a href="mailto:pclijten@gmail.com">info@niste.nl</a></p>
+      <div class="contact-box">
+        <h3>Niste</h3>
+        <div class="contact-row"><span class="contact-label">Platform</span><span class="contact-val">niste.nl — pilot woningmobiliteit</span></div>
+        <div class="contact-row"><span class="contact-label">E-mail</span><span class="contact-val"><a href="mailto:privacy@niste.nl">privacy@niste.nl</a></span></div>
+        <div class="contact-row"><span class="contact-label">Regio</span><span class="contact-val">Nederland (pilot Noord-Brabant)</span></div>
+        <div class="contact-row"><span class="contact-label">Fase</span><span class="contact-val">Pilot — niet-commercieel, beperkt bereik</span></div>
       </div>
 
-    </div>
+      <div class="info-box gold" style="margin-top:1.2rem">
+        <span class="info-icon">ℹ️</span>
+        <span class="info-text"><strong>Pilot-status:</strong> Niste bevindt zich in een niet-commerciële pilotfase. Er is nog geen formele rechtsvorm geregistreerd. Deze verklaring is van toepassing op de pilotperiode 2026. Bij commerciële doorontwikkeling wordt een nieuwe versie gepubliceerd met bijgewerkte bedrijfsgegevens.</span>
+      </div>
+    </article>
 
-  </div>
+    <!-- ART 2 -->
+    <article class="art" id="art2">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 2</div>
+      <h2>Welke persoonsgegevens<br><em>verwerken wij?</em></h2>
+      <p>Wij verwerken uitsluitend de persoonsgegevens die noodzakelijk zijn voor het doel van het platform, conform het beginsel van <strong>dataminimalisatie</strong> (artikel 5 lid 1c AVG). De onderstaande tabel geeft een volledig overzicht.</p>
 
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Categorie</th>
+            <th>Specifieke gegevens</th>
+            <th>Bijzonder?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Contactgegevens</td>
+            <td>E-mailadres</td>
+            <td><span class="badge badge-green">Gewoon</span></td>
+          </tr>
+          <tr>
+            <td>Woonprofiel</td>
+            <td>Postcode (geen straat of huisnummer), globale woninggrootte, aantal bewoners, woonduur</td>
+            <td><span class="badge badge-green">Gewoon</span></td>
+          </tr>
+          <tr>
+            <td>Woonwensen</td>
+            <td>Indicatieve woonwensen (type, ligging, grootte), verhuisbereidheid</td>
+            <td><span class="badge badge-green">Gewoon</span></td>
+          </tr>
+          <tr>
+            <td>Gebruiksdata</td>
+            <td>Inlogmomenten, matchinteracties (wel/geen interesse), reacties op meldingen</td>
+            <td><span class="badge badge-green">Gewoon</span></td>
+          </tr>
+          <tr>
+            <td>Technisch</td>
+            <td>IP-adres (geanonimiseerd), browser-type, apparaattype</td>
+            <td><span class="badge badge-green">Gewoon</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box green">
+        <span class="info-icon">🔒</span>
+        <span class="info-text"><strong>Wat wij expliciet niet verzamelen:</strong> naam, geboortedatum, BSN, inkomen, hypotheekgegevens, exacte woonadres, telefoonnummer, gezondheidsgegevens of andere bijzondere persoonsgegevens als bedoeld in artikel 9 AVG.</span>
+      </div>
+
+      <div class="info-box rust">
+        <span class="info-icon">⚠️</span>
+        <span class="info-text"><strong>Opmerking AP-perspectief:</strong> Een postcode in combinatie met woningkenmerken kan in dunbevolkte gebieden herleidbaar zijn tot een specifiek adres. Niste dient dit risico periodiek te beoordelen, met name bij gebruik in kleine kernen of bij weinig profielen per postcode.</span>
+      </div>
+    </article>
+
+    <!-- ART 3 -->
+    <article class="art" id="art3">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 3</div>
+      <h2>Doel en <em>rechtsgrond</em></h2>
+      <p>Voor elke verwerking van persoonsgegevens is een geldige rechtsgrond vereist op grond van artikel 6 AVG. Wij verwerken persoonsgegevens uitsluitend voor de onderstaande doelen, op de daarbij vermelde rechtsgrond.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Doel van verwerking</th>
+            <th>Rechtsgrond (art. 6 AVG)</th>
+            <th>Toelichting</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Aanmaken en beheren van account</td>
+            <td><span class="badge badge-green">Toestemming (6.1.a)</span></td>
+            <td>Vrijwillige aanmelding via het formulier</td>
+          </tr>
+          <tr>
+            <td>Anoniem matchen van woonprofielen</td>
+            <td><span class="badge badge-green">Toestemming (6.1.a)</span></td>
+            <td>Gebruiker stemt in bij aanmelding; verwijderbaar</td>
+          </tr>
+          <tr>
+            <td>Versturen van matchmeldingen</td>
+            <td><span class="badge badge-green">Toestemming (6.1.a)</span></td>
+            <td>Uitsluitend naar geregistreerde e-mailadressen</td>
+          </tr>
+          <tr>
+            <td>Verbeteren van het matchingsalgoritme</td>
+            <td><span class="badge badge-gold">Gerechtvaardig belang (6.1.f)</span></td>
+            <td>Geanonimiseerde aggregatiedata; geen individuele profielen</td>
+          </tr>
+          <tr>
+            <td>Gemeente-dashboard (geaggregeerd)</td>
+            <td><span class="badge badge-gold">Gerechtvaardig belang (6.1.f)</span></td>
+            <td>Uitsluitend anonieme, niet-herleidbare wijkdata</td>
+          </tr>
+          <tr>
+            <td>Beveiliging en fraudepreventie</td>
+            <td><span class="badge badge-gold">Gerechtvaardig belang (6.1.f)</span></td>
+            <td>Logbestanden; maximaal 30 dagen bewaard</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box rust">
+        <span class="info-icon">⚠️</span>
+        <span class="info-text"><strong>Belangenafweging gerechtvaardig belang:</strong> Wanneer Niste zich beroept op gerechtvaardigd belang (artikel 6.1.f AVG), is een voorafgaande belangenafweging (LIA — Legitimate Interests Assessment) vereist. Niste dient voor elk van de bovenstaande verwerkingen op basis van 6.1.f een gedocumenteerde LIA op te stellen en beschikbaar te stellen indien betrokkenen of de AP daarom verzoeken.</span>
+      </div>
+    </article>
+
+    <!-- ART 4 -->
+    <article class="art" id="art4">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 4</div>
+      <h2>Ontvangers en <em>derde partijen</em></h2>
+      <p>Niste deelt persoonsgegevens uitsluitend met de hieronder genoemde partijen, voor de omschreven doelen, op basis van een verwerkersovereenkomst conform artikel 28 AVG.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Ontvanger</th>
+            <th>Rol</th>
+            <th>Doel</th>
+            <th>Locatie</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google Firebase (Firestore)</td>
+            <td>Verwerker</td>
+            <td>Opslag gebruikersdata en woonprofielen</td>
+            <td>EER (eu-west1)</td>
+          </tr>
+          <tr>
+            <td>GitHub Pages</td>
+            <td>Verwerker</td>
+            <td>Hosting van de statische website</td>
+            <td>VS — zie art. 5</td>
+          </tr>
+          <tr>
+            <td>Gemeenten (pilot)</td>
+            <td>Verwerkingsverantwoordelijke</td>
+            <td>Ontvangen uitsluitend <em>anonieme</em> wijkdata</td>
+            <td>Nederland</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box green">
+        <span class="info-icon">✅</span>
+        <span class="info-text"><strong>Gemeenten ontvangen geen persoonsgegevens.</strong> De dashboarddata die gedeeld wordt met gemeenten is volledig geanonimiseerd en geaggregeerd. Individuele profielen worden nooit gedeeld. Er is geen sprake van gezamenlijke verwerkingsverantwoordelijkheid (artikel 26 AVG) voor wat betreft persoonsgegevens.</span>
+      </div>
+
+      <div class="info-box rust">
+        <span class="info-icon">⚠️</span>
+        <span class="info-text"><strong>Vereiste actie:</strong> Voor elke verwerker dient Niste een getekende verwerkersovereenkomst (art. 28 AVG) te hebben. Dit geldt in het bijzonder voor Firebase/Google. Niste maakt gebruik van de standaard Google verwerkersovereenkomst; deze dient aantoonbaar geaccepteerd en gedocumenteerd te zijn in het verwerkingsregister.</span>
+      </div>
+    </article>
+
+    <!-- ART 5 -->
+    <article class="art" id="art5">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 5</div>
+      <h2>Doorgifte buiten <em>de EER</em></h2>
+      <p>Bij doorgifte van persoonsgegevens buiten de Europese Economische Ruimte (EER) gelden de aanvullende waarborgen van hoofdstuk V AVG.</p>
+      <p><strong>Firebase (Google Cloud):</strong> Niste configureert Firebase op de regio <strong>europe-west1 (België)</strong>. Persoonsgegevens worden daarmee in beginsel binnen de EER verwerkt en opgeslagen. Google is gecertificeerd onder de EU-US Data Privacy Framework.</p>
+      <p><strong>GitHub Pages:</strong> De statische website-hosting via GitHub Pages vindt plaats op servers in de Verenigde Staten. Via GitHub Pages worden geen persoonsgegevens opgeslagen — alleen de HTML/CSS/JS bronbestanden. Bezoekers-IP-adressen worden door GitHub verwerkt conform hun eigen privacybeleid. GitHub hanteert de Standard Contractual Clauses (SCCs) als doorgiftemechanisme conform artikel 46 AVG.</p>
+
+      <div class="info-box rust">
+        <span class="info-icon">⚠️</span>
+        <span class="info-text"><strong>Aandachtspunt:</strong> Niste dient te bevestigen dat de Firebase-regio aantoonbaar is ingesteld op een EER-locatie en dit te documenteren. Bij twijfel: verplaats de Firebase-instantie naar eu-west1 en leg dit vast.</span>
+      </div>
+    </article>
+
+    <!-- ART 6 -->
+    <article class="art" id="art6">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 6</div>
+      <h2><em>Bewaartermijnen</em></h2>
+      <p>Persoonsgegevens mogen niet langer worden bewaard dan noodzakelijk voor het doel waarvoor zij zijn verzameld (artikel 5 lid 1e AVG — beginsel van opslagbeperking).</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Categorie gegevens</th>
+            <th>Bewaartermijn</th>
+            <th>Grondslag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Accountgegevens (e-mail, profiel)</td>
+            <td>Tot verwijdering account + 30 dagen</td>
+            <td>Toestemming</td>
+          </tr>
+          <tr>
+            <td>Matchhistorie (anoniem)</td>
+            <td>Maximaal 12 maanden na afsluiting pilot</td>
+            <td>Gerechtvaardig belang (onderzoek)</td>
+          </tr>
+          <tr>
+            <td>Logbestanden / beveiliging</td>
+            <td>Maximaal 30 dagen</td>
+            <td>Gerechtvaardig belang</td>
+          </tr>
+          <tr>
+            <td>Anonieme aggregatiedata (gemeenten)</td>
+            <td>Onbepaald — niet herleidbaar tot persoon</td>
+            <td>Niet van toepassing (geen persoonsgegevens)</td>
+          </tr>
+          <tr>
+            <td>Back-ups</td>
+            <td>Maximaal 90 dagen na verwijdering</td>
+            <td>Technische noodzaak</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Na het verstrijken van de bewaartermijn worden persoonsgegevens <strong>definitief en onherstelbaar verwijderd</strong> of zodanig geanonimiseerd dat herleiding tot een persoon niet meer mogelijk is.</p>
+    </article>
+
+    <!-- ART 7 -->
+    <article class="art" id="art7">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 7</div>
+      <h2>Uw rechten<br><em>als betrokkene (AVG)</em></h2>
+      <p>Op grond van de AVG (artikelen 15–22) heeft u als betrokkene de volgende rechten. U kunt deze uitoefenen door contact op te nemen via <a href="mailto:privacy@niste.nl" style="color:var(--forest)">privacy@niste.nl</a>. Niste reageert binnen <strong>één maand</strong> op uw verzoek (art. 12 lid 3 AVG). Bij complexe of veelvuldige verzoeken kan deze termijn met twee maanden worden verlengd.</p>
+
+      <div class="rights-grid">
+        <div class="right-card">
+          <div class="right-icon">📋</div>
+          <div class="right-title">Recht op inzage</div>
+          <div class="right-body">U heeft het recht om te weten welke persoonsgegevens wij van u verwerken, voor welk doel en op welke rechtsgrond.</div>
+          <div class="right-ref">Artikel 15 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">✏️</div>
+          <div class="right-title">Recht op rectificatie</div>
+          <div class="right-body">U kunt onjuiste of onvolledige persoonsgegevens laten corrigeren of aanvullen.</div>
+          <div class="right-ref">Artikel 16 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">🗑️</div>
+          <div class="right-title">Recht op verwijdering</div>
+          <div class="right-body">U kunt verzoeken om verwijdering van uw persoonsgegevens ("recht op vergetelheid"), tenzij een wettelijke bewaarplicht van toepassing is.</div>
+          <div class="right-ref">Artikel 17 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">⏸️</div>
+          <div class="right-title">Recht op beperking</div>
+          <div class="right-body">U kunt de verwerking laten beperken terwijl een bezwaar of verzoek in behandeling is.</div>
+          <div class="right-ref">Artikel 18 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">🚫</div>
+          <div class="right-title">Recht van bezwaar</div>
+          <div class="right-body">U kunt bezwaar maken tegen verwerking op basis van gerechtvaardigd belang. Wij staken de verwerking, tenzij wij dwingende gerechtvaardigde gronden aanvoeren.</div>
+          <div class="right-ref">Artikel 21 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">📦</div>
+          <div class="right-title">Recht op dataportabiliteit</div>
+          <div class="right-body">U kunt uw gegevens in een gestructureerd, gangbaar en machineleesbaar formaat ontvangen, of direct laten overdragen aan een andere aanbieder.</div>
+          <div class="right-ref">Artikel 20 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">↩️</div>
+          <div class="right-title">Recht op intrekking toestemming</div>
+          <div class="right-body">U kunt uw toestemming te allen tijde intrekken. Dit heeft geen terugwerkende kracht, maar wij staken de verwerking direct na intrekking.</div>
+          <div class="right-ref">Artikel 7 lid 3 AVG</div>
+        </div>
+        <div class="right-card">
+          <div class="right-icon">🏛️</div>
+          <div class="right-title">Recht om klacht in te dienen</div>
+          <div class="right-body">U heeft te allen tijde het recht een klacht in te dienen bij de Autoriteit Persoonsgegevens, ongeacht andere rechtsmiddelen.</div>
+          <div class="right-ref">Artikel 77 AVG · <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener" style="color:var(--forest)">autoriteitpersoonsgegevens.nl</a></div>
+        </div>
+      </div>
+
+      <div class="info-box green" style="margin-top:1.5rem">
+        <span class="info-icon">✅</span>
+        <span class="info-text"><strong>Identiteitsverificatie:</strong> Om uw rechten te kunnen uitoefenen dienen wij uw identiteit te kunnen vaststellen. Wij vragen u uw verzoek in te dienen via het e-mailadres waarmee u geregistreerd bent. Wij bewaren geen kopieën van identiteitsbewijzen.</span>
+      </div>
+    </article>
+
+    <!-- ART 8 -->
+    <article class="art" id="art8">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 8</div>
+      <h2>Geautomatiseerde besluiten<br><em>en profilering</em></h2>
+      <p>Het matchingsalgoritme van Niste vergelijkt woonprofielen op basis van ingevoerde kenmerken (locatie, grootte, woonwensen) en genereert een <strong>matchsuggestie</strong>.</p>
+      <p>Dit is een <strong>geautomatiseerd proces</strong>, maar het leidt <strong>niet tot een besluit met rechtsgevolg</strong> voor de betrokkene in de zin van artikel 22 AVG. Een matchmelding is uitsluitend een informatieve suggestie; de betrokkene is nimmer verplicht te reageren of actie te ondernemen.</p>
+
+      <div class="info-box gold">
+        <span class="info-icon">ℹ️</span>
+        <span class="info-text"><strong>Geen profilering in de zin van art. 4 lid 4 AVG</strong> met rechtsgevolgen. Niste beoordeelt niet de persoon, maar de kenmerken van het woonprofiel. Er worden geen categorieën als ras, gezondheid, financiën of gedrag gebruikt in het matchingsalgoritme.</span>
+      </div>
+
+      <div class="info-box rust">
+        <span class="info-icon">⚠️</span>
+        <span class="info-text"><strong>Aandachtspunt bij doorontwikkeling:</strong> Indien het algoritme in een latere versie gebruik maakt van afgeleide of voorspellende kenmerken (bijv. verhuiskans-score op basis van gedragspatronen), kwalificeert dit mogelijk als profilering onder artikel 22 AVG. In dat geval is aanvullende informatieplicht en mogelijk een DPIA vereist.</span>
+      </div>
+    </article>
+
+    <!-- ART 9 -->
+    <article class="art" id="art9">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 9</div>
+      <h2>Beveiliging van<br><em>persoonsgegevens</em></h2>
+      <p>Niste neemt passende technische en organisatorische maatregelen om persoonsgegevens te beveiligen tegen verlies, ongeoorloofde toegang, wijziging of openbaarmaking (artikel 32 AVG).</p>
+
+      <table class="data-table">
+        <thead><tr><th>Maatregel</th><th>Implementatie</th></tr></thead>
+        <tbody>
+          <tr><td>Versleuteling in transit</td><td>HTTPS / TLS 1.2+ via GitHub Pages en Firebase</td></tr>
+          <tr><td>Versleuteling in opslag</td><td>Firebase Firestore: AES-256 encryptie at rest</td></tr>
+          <tr><td>Authenticatie</td><td>Firebase Authentication; e-mailverificatie verplicht</td></tr>
+          <tr><td>Toegangsbeveiliging</td><td>Firestore Security Rules; alleen eigenaar-toegang tot eigen profiel</td></tr>
+          <tr><td>Anonimisering matching</td><td>Adressen nooit opgeslagen; postcode als enige locatie-indicator</td></tr>
+          <tr><td>Datalekprocedure</td><td>Melding aan AP binnen 72 uur (art. 33 AVG) indien van toepassing</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box rust">
+        <span class="info-icon">⚠️</span>
+        <span class="info-text"><strong>DPIA-beoordeling:</strong> Niste dient te beoordelen of een Data Protection Impact Assessment (DPIA, artikel 35 AVG) vereist is. Matching op woongegevens van mogelijk kwetsbare groepen (ouderen) in combinatie met locatiedata kan onder de criteria van de AP-lijst verplichte DPIA's vallen. Niste adviseert deze beoordeling voor aanvang van de pilot uit te voeren.</span>
+      </div>
+    </article>
+
+    <!-- ART 10 -->
+    <article class="art" id="art10">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 10</div>
+      <h2>Cookies en<br><em>tracking</em></h2>
+      <p>Niste gebruikt <strong>uitsluitend functionele cookies</strong> die noodzakelijk zijn voor de werking van het platform. Er worden geen analytische, marketing- of tracking-cookies geplaatst.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Cookie</th><th>Doel</th><th>Duur</th><th>Toestemming?</th></tr></thead>
+        <tbody>
+          <tr><td>Firebase Auth Session</td><td>Ingelogd blijven</td><td>Sessie</td><td><span class="badge badge-green">Niet vereist</span></td></tr>
+          <tr><td>Firebase App Check</td><td>Beveiligingscheck</td><td>Sessie</td><td><span class="badge badge-green">Niet vereist</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box green">
+        <span class="info-icon">✅</span>
+        <span class="info-text">Niste gebruikt geen Google Analytics, Meta Pixel, LinkedIn Insight Tag of vergelijkbare trackers van derden. Er wordt geen cross-site tracking of advertentie-profilering uitgevoerd.</span>
+      </div>
+    </article>
+
+    <!-- ART 11 -->
+    <article class="art" id="art11">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 11</div>
+      <h2>Wijzigingen in deze<br><em>verklaring</em></h2>
+      <p>Niste behoudt zich het recht voor deze privacyverklaring te wijzigen. De meest actuele versie is altijd beschikbaar op <strong>niste.nl/privacy.html</strong>. De versiedatum bovenaan deze pagina geeft de datum van de laatste wijziging aan.</p>
+      <p>Bij wijzigingen die uw rechten of de rechtsgrond van verwerking raken, ontvangt u als geregistreerde gebruiker een e-mailnotificatie minimaal <strong>14 dagen</strong> voor de inwerkingtreding van de nieuwe versie. U heeft in dat geval het recht uw account te verwijderen vóór inwerkingtreding.</p>
+    </article>
+
+    <!-- ART 12 -->
+    <article class="art" id="art12">
+      <div class="art-eyebrow"><span class="art-eyebrow-line"></span>Artikel 12</div>
+      <h2>Contact en<br><em>klachten</em></h2>
+      <p>Voor vragen, inzageverzoeken of andere uitoefening van uw rechten kunt u contact opnemen via:</p>
+
+      <div class="contact-box">
+        <h3>Privacy-contact Niste</h3>
+        <div class="contact-row"><span class="contact-label">E-mail</span><span class="contact-val"><a href="mailto:privacy@niste.nl">privacy@niste.nl</a></span></div>
+        <div class="contact-row"><span class="contact-label">Reactie</span><span class="contact-val">Binnen één maand (art. 12 lid 3 AVG)</span></div>
+        <div class="contact-row"><span class="contact-label">Taal</span><span class="contact-val">Nederlands of Engels</span></div>
+      </div>
+
+      <div class="ap-box">
+        <h4>Klacht indienen bij de toezichthouder</h4>
+        <p>Indien u van mening bent dat Niste uw persoonsgegevens niet in overeenstemming met de AVG verwerkt, heeft u het recht een klacht in te dienen bij de <strong>Autoriteit Persoonsgegevens</strong> — ongeacht eventuele andere rechtsmiddelen.</p>
+        <p style="margin-top:.6rem"><strong>Autoriteit Persoonsgegevens</strong><br>
+        Postbus 93374, 2509 AJ Den Haag<br>
+        <a href="https://www.autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons" target="_blank" rel="noopener">autoriteitpersoonsgegevens.nl</a> · 0900-2001201</p>
+      </div>
+    </article>
+
+  </main>
 </div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="f-logo">niste·</a>
+  <p class="f-meta">Privacyverklaring v1.2 · Maart 2026 · AVG-conform</p>
+  <nav class="f-nav">
+    <a href="index.html">Hoe het werkt</a>
+    <a href="onderbouwing.html">Onderbouwing</a>
+    <a href="privacy.html" class="cur">Privacy</a>
+    <a href="aanmelden.html">Aanmelden</a>
+  </nav>
+</footer>
+
 <script src="nav.js"></script>
+
+<!-- TOC active state on scroll -->
+<script>
+  const arts = document.querySelectorAll('.art[id]');
+  const links = document.querySelectorAll('.toc-list a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc-list a[href="#'+e.target.id+'"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  arts.forEach(a => obs.observe(a));
+</script>
+
 </body>
 </html>
