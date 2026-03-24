@@ -1,310 +1,513 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onderbouwing – Niste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:#F6F1E9; --warm:#EDE5D4; --forest:#2A4A3E;
+      --moss:#3D6B5C; --gold:#C49A4A; --gold-lt:#E8C97A;
+      --rust:#B85C38; --dark:#1A1A16; --mid:#5A5A50; --light:#9A9A8E;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--cream); color:var(--dark); line-height:1.7; }
 
-<title>Onderbouwing – Niste</title>
+    /* HERO */
+    .hero { background:var(--forest); padding:7rem 3rem 5rem; position:relative; overflow:hidden; text-align:center; }
+    .blob { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
+    .blob-1 { width:500px;height:500px;background:rgba(196,154,74,.12);top:-15%;left:50%;transform:translateX(-50%); }
+    .blob-2 { width:300px;height:300px;background:rgba(61,107,92,.4);bottom:-5%;right:5%; }
+    .blob-3 { width:250px;height:250px;background:rgba(61,107,92,.35);bottom:-5%;left:5%; }
+    .hero-pill { display:inline-flex;align-items:center;gap:.5rem;background:rgba(246,241,233,.1);border:1px solid rgba(246,241,233,.15);border-radius:100px;padding:.35rem .9rem;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,233,.6);margin-bottom:2rem;position:relative;z-index:1; }
+    .hero-dot { width:6px;height:6px;border-radius:50%;background:var(--gold); }
+    .hero h1 { font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5.5vw,5rem);font-weight:300;line-height:1.05;color:var(--cream);max-width:800px;margin:0 auto 1.4rem;position:relative;z-index:1; }
+    .hero h1 em { font-style:italic;color:var(--gold-lt); }
+    .hero-lead { font-size:clamp(.9rem,1.5vw,1.05rem);line-height:1.8;color:rgba(246,241,233,.65);max-width:640px;margin:0 auto 2rem;position:relative;z-index:1; }
+    .hero-warning { display:inline-flex;align-items:flex-start;gap:.7rem;background:rgba(184,92,56,.15);border:1px solid rgba(184,92,56,.25);border-radius:12px;padding:.8rem 1.2rem;font-size:.8rem;line-height:1.55;color:rgba(246,241,233,.75);max-width:600px;margin:0 auto 3rem;position:relative;z-index:1;text-align:left; }
+    .hero-warning strong { color:var(--gold-lt); }
+    .hero-stats { display:flex;justify-content:center;gap:3rem;position:relative;z-index:1;padding-top:2.8rem;border-top:1px solid rgba(246,241,233,.08);max-width:780px;margin:0 auto;flex-wrap:wrap; }
+    .stat-val { font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--gold);line-height:1; }
+    .stat-lbl { font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,241,233,.35);margin-top:.3rem; }
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    /* NAV LINK */
+    .toc-wrap { padding:3.5rem 3rem 1.5rem; }
+    .toc-inner { max-width:1100px;margin:0 auto; }
+    .toc-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-top:1.8rem; }
+    .toc-item { background:white;border:1px solid rgba(42,74,62,.07);border-radius:14px;padding:1rem 1.2rem;text-decoration:none;display:flex;align-items:center;gap:.8rem;transition:transform .2s,box-shadow .2s; }
+    .toc-item:hover { transform:translateY(-3px);box-shadow:0 8px 24px rgba(42,74,62,.1); }
+    .toc-num { font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold);line-height:1;flex-shrink:0; }
+    .toc-label { font-size:.77rem;font-weight:700;color:var(--dark);line-height:1.3; }
+    .toc-sub { font-size:.67rem;color:var(--light);margin-top:.15rem; }
 
-<style>
-:root {
-  --cream: #F6F1E9;
-  --text: #1A1A1A;
-  --soft: #6B6B6B;
-  --accent: #2A4D3E;
-}
+    /* SECTIONS */
+    .sec { padding:6rem 3rem; }
+    .sec.warm  { background:var(--warm); }
+    .sec.dark  { background:var(--forest); }
+    .inner { max-width:1100px;margin:0 auto; }
+    .eyebrow { display:inline-flex;align-items:center;gap:.45rem;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
+    .eyebrow-line { width:24px;height:1px;background:var(--gold);opacity:.6; }
+    .sec-title { font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:300;line-height:1.1;color:var(--dark);margin-bottom:.8rem; }
+    .sec-title em { font-style:italic;color:var(--forest); }
+    .sec-title.inv { color:var(--cream); }
+    .sec-title.inv em { color:var(--gold-lt); }
+    .sec-lead { font-size:.95rem;line-height:1.8;color:var(--mid);max-width:620px; }
+    .sec-lead.inv { color:rgba(246,241,233,.6); }
 
-body {
-  margin: 0;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: var(--cream);
-  color: var(--text);
-  line-height: 1.7;
-}
+    /* KPI */
+    .kpi-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:2.5rem; }
+    .kpi { background:white;border:1px solid rgba(42,74,62,.07);border-radius:16px;padding:1.4rem;text-align:center;transition:transform .2s,box-shadow .2s; }
+    .kpi:hover { transform:translateY(-3px);box-shadow:0 10px 28px rgba(42,74,62,.1); }
+    .kpi-v { font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--forest);line-height:1; }
+    .kpi-v.bad { color:var(--rust); }
+    .kpi-l { font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--light);margin-top:.4rem;line-height:1.4; }
+    .kpi-s { font-size:.6rem;color:var(--light);font-style:italic;margin-top:.4rem; }
 
-.container {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 60px 20px;
-}
+    /* CHARTS */
+    .chart-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem; }
+    .chart-box { background:white;border:1px solid rgba(42,74,62,.07);border-radius:20px;padding:1.8rem; }
+    .chart-t { font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--dark);margin-bottom:.2rem; }
+    .chart-s { font-size:.7rem;color:var(--light);margin-bottom:1.2rem;line-height:1.4; }
+    .chart-c { position:relative;height:260px; }
 
-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 44px;
-}
+    /* SOURCE CARD */
+    .src-card { background:white;border:1px solid rgba(42,74,62,.07);border-radius:20px;padding:2rem;margin-top:2.5rem; }
+    .src-head { display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap; }
+    .src-badge { display:inline-flex;align-items:center;gap:.4rem;background:rgba(42,74,62,.07);border-radius:100px;padding:.3rem .8rem;font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--forest);flex-shrink:0; }
+    .src-year { font-size:.75rem;color:var(--light); }
+    .src-apa { font-size:.8rem;line-height:1.65;color:var(--mid);padding:.75rem 1rem;background:rgba(42,74,62,.04);border-radius:10px;border-left:3px solid rgba(42,74,62,.15);margin-bottom:1.5rem; }
+    .src-apa a { color:var(--forest);word-break:break-all;text-decoration:underline; }
+    .src-cols { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.2rem; }
+    .src-col h4 { font-size:.67rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:.8rem; }
+    .facts { list-style:none;display:flex;flex-direction:column;gap:.45rem; }
+    .facts li { display:flex;align-items:flex-start;gap:.65rem;font-size:.86rem;color:var(--dark);line-height:1.5; }
+    .facts li::before { content:'';width:6px;height:6px;border-radius:50%;background:var(--forest);flex-shrink:0;margin-top:.55rem; }
+    .link-p { font-size:.86rem;line-height:1.65;color:var(--mid); }
+    .nuance { display:flex;gap:.75rem;align-items:flex-start;padding:.85rem 1rem;background:rgba(184,92,56,.06);border:1px solid rgba(184,92,56,.12);border-radius:12px;margin-top:1rem; }
+    .nuance-icon { font-size:.9rem;flex-shrink:0;margin-top:.1rem; }
+    .nuance-text { font-size:.78rem;line-height:1.6;color:var(--rust); }
+    .nuance-text strong { font-weight:700; }
 
-h2 {
-  font-family: 'Cormorant Garamond', serif;
-  margin-top: 70px;
-  font-size: 30px;
-}
+    /* CONCLUSIE */
+    .con-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem; }
+    .con-card { border-radius:18px;padding:1.8rem; }
+    .con-pos { background:rgba(42,74,62,.08);border:1px solid rgba(42,74,62,.15); }
+    .con-neg { background:rgba(184,92,56,.07);border:1px solid rgba(184,92,56,.15); }
+    .con-card h4 { font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:.9rem; }
+    .con-pos h4 { color:var(--forest); }
+    .con-neg h4 { color:var(--rust); }
+    .con-card ul { list-style:none;display:flex;flex-direction:column;gap:.5rem; }
+    .con-card ul li { font-size:.84rem;line-height:1.6;color:var(--mid);display:flex;gap:.7rem; }
+    .con-card ul li::before { content:'→';flex-shrink:0;font-weight:800; }
+    .con-pos ul li::before { color:var(--forest); }
+    .con-neg ul li::before { color:var(--rust); }
 
-.block {
-  margin-top: 25px;
-  padding-left: 18px;
-  border-left: 3px solid #ddd;
-}
+    /* REFS */
+    .ref-list { display:flex;flex-direction:column;gap:.9rem;margin-top:2rem; }
+    .ref { background:white;border:1px solid rgba(42,74,62,.07);border-radius:14px;padding:1.1rem 1.4rem;display:flex;gap:1rem;align-items:flex-start; }
+    .ref-n { font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--gold);line-height:1;flex-shrink:0;width:22px;text-align:right; }
+    .ref-t { font-size:.82rem;line-height:1.7;color:var(--mid); }
+    .ref-t a { color:var(--forest);word-break:break-all; }
 
-.highlight {
-  background: white;
-  padding: 25px;
-  margin: 30px 0;
-  border-radius: 10px;
-}
+    /* BTN */
+    .btn { background:var(--cream);color:var(--forest);border:none;border-radius:100px;padding:1rem 2rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background .2s,transform .2s;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 5px 20px rgba(0,0,0,.2); }
+    .btn:hover { background:var(--gold-lt);transform:translateY(-2px); }
 
-.metrics {
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  margin: 30px 0;
-}
+    /* FOOTER */
+    footer { background:var(--dark);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap; }
+    .f-logo { font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:rgba(246,241,233,.7);text-decoration:none; }
+    .f-meta { font-size:.72rem;color:rgba(246,241,233,.3);line-height:1.6; }
+    .f-nav { display:flex;gap:1.4rem; }
+    .f-nav a { font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,241,233,.3);text-decoration:none;transition:color .2s; }
+    .f-nav a:hover,.f-nav a.cur { color:rgba(246,241,233,.6); }
 
-.metrics ul {
-  columns: 2;
-}
-
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.small {
-  color: var(--soft);
-  font-size: 14px;
-}
-
-.nuance {
-  font-size: 14px;
-  color: var(--soft);
-  margin-top: 10px;
-}
-</style>
+    @media(max-width:900px){
+      .sec,.toc-wrap { padding:4rem 1.4rem; }
+      .hero { padding:5rem 1.4rem 4rem; }
+      .toc-grid,.kpi-grid { grid-template-columns:1fr 1fr; }
+      .chart-grid,.src-cols,.con-grid { grid-template-columns:1fr; }
+      .hero-stats { gap:1.8rem; }
+      footer { padding:2rem 1.4rem; }
+      .f-nav { display:none; }
+    }
+    @media(max-width:560px){
+      .toc-grid { grid-template-columns:1fr; }
+      .hero-stats { flex-direction:column;align-items:center;gap:1.5rem; }
+    }
+  </style>
 </head>
-
 <body>
+
 <div id="nav-root"></div>
-<div class="container">
 
-<h1>Onderbouwing</h1>
+<!-- HERO -->
+<section class="hero">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+  <div class="hero-pill"><span class="hero-dot"></span>Feitelijke onderbouwing · CBS · PBL · Rijksoverheid · ABF Research</div>
+  <h1>De woningmarkt in<br><em>harde cijfers</em></h1>
+  <p class="hero-lead">Objectieve feitenbasis op basis van gepubliceerd onderzoek. Aannames worden expliciet benoemd. Beperkingen van het concept worden niet weggelaten.</p>
+  <div class="hero-warning">
+    <span>⚠️</span>
+    <span>De kernvraag of een matchingsplatform daadwerkelijk tot verhuizingen leidt is <strong>empirisch nog niet aangetoond</strong>. De onderstaande data onderbouwt het <em>probleem</em> — niet automatisch de effectiviteit van de oplossing.</span>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-val">~400.000</div><div class="stat-lbl">Woningen tekort (NL, 2024)</div></div>
+    <div><div class="stat-val">−24%</div><div class="stat-lbl">Doorstroming koopmarkt (WoON 2024)</div></div>
+    <div><div class="stat-val">72%</div><div class="stat-lbl">75+ wil niet verhuizen (CBS 2020)</div></div>
+    <div><div class="stat-val">79 m²</div><div class="stat-lbl">Gem. p.p. bij 70+ (CBS 2022)</div></div>
+  </div>
+</section>
 
-<p class="small">
-Deze pagina geeft een feitelijke onderbouwing van het concept op basis van landelijke data (CBS, PBL, Rijksoverheid, ABF). 
-De focus ligt op objectieve cijfers, niet op aannames.
-</p>
-
-<div class="highlight">
-<strong>Kernconclusie</strong><br><br>
-De Nederlandse woningmarkt wordt gekenmerkt door een structureel tekort, veranderende huishoudenssamenstelling en beperkte doorstroming. 
-Er bestaat aantoonbaar onderbenutte capaciteit in de bestaande voorraad, maar gedragsfactoren vormen een substantiële beperking.
+<!-- INHOUDSOPGAVE -->
+<div class="toc-wrap">
+  <div class="toc-inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Inhoudsopgave</div>
+    <div class="toc-grid">
+      <a href="#s1" class="toc-item"><div class="toc-num">1</div><div><div class="toc-label">Structureel woningtekort</div><div class="toc-sub">Staat Volkshuisvesting 2024</div></div></a>
+      <a href="#s2" class="toc-item"><div class="toc-num">2</div><div><div class="toc-label">Huishoudensgroei</div><div class="toc-sub">CBS Prognose 2024</div></div></a>
+      <a href="#s3" class="toc-item"><div class="toc-num">3</div><div><div class="toc-label">Afnemende doorstroming</div><div class="toc-sub">WoON 2024</div></div></a>
+      <a href="#s4" class="toc-item"><div class="toc-num">4</div><div><div class="toc-label">Verhuisbereidheid</div><div class="toc-sub">CBS 55-plussers 2020</div></div></a>
+      <a href="#s5" class="toc-item"><div class="toc-num">5</div><div><div class="toc-label">Onderbenutte woonruimte</div><div class="toc-sub">CBS Woonruimte 2022</div></div></a>
+      <a href="#s6" class="toc-item"><div class="toc-num">6</div><div><div class="toc-label">Verhuisgedrag &amp; stuurbaarheid</div><div class="toc-sub">PBL Verhuismotieven 2023</div></div></a>
+    </div>
+  </div>
 </div>
 
-<!-- KPI BLOK -->
-<div class="metrics">
-<strong>Kerncijfers (landelijk)</strong>
-<ul>
-<li>~400.000 woningen tekort</li>
-<li>~4,9% woningtekort</li>
-<li>+600.000 huishoudens tot 2035</li>
-<li>40% eenpersoonshuishoudens</li>
-<li>-24% doorstroming koopmarkt</li>
-<li>70%+ ouderen wil niet verhuizen</li>
-<li>70+ woont gemiddeld 79 m² p.p.</li>
-<li>75% verhuist binnen 10 km</li>
-</ul>
-</div>
+<!-- KERNCIJFERS -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Kerncijfers landelijk</div>
+    <h2 class="sec-title">De woningmarkt in<br><em>acht kerncijfers</em></h2>
+    <p class="sec-lead">Alle cijfers zijn afkomstig van CBS, PBL, Rijksoverheid of ABF Research. Cijfers met een ⚠ kleur zijn in het nadeel van het concept.</p>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-v bad">~400.000</div><div class="kpi-l">Woningen tekort in Nederland</div><div class="kpi-s">Staat Volkshuisvesting 2024</div></div>
+      <div class="kpi"><div class="kpi-v bad">4,9%</div><div class="kpi-l">Woningtekort als % van voorraad</div><div class="kpi-s">ABF Primos 2024</div></div>
+      <div class="kpi"><div class="kpi-v">+600.000</div><div class="kpi-l">Extra huishoudens verwacht 2035</div><div class="kpi-s">CBS Prognose 2024</div></div>
+      <div class="kpi"><div class="kpi-v">40%</div><div class="kpi-l">Eenpersoonshuishoudens nu</div><div class="kpi-s">CBS WoON 2024</div></div>
+      <div class="kpi"><div class="kpi-v bad">−24%</div><div class="kpi-l">Doorstroming koopmarkt t.o.v. vorige meting</div><div class="kpi-s">WoON 2024</div></div>
+      <div class="kpi"><div class="kpi-v bad">72%</div><div class="kpi-l">75-plussers wil niet verhuizen</div><div class="kpi-s">CBS 2020</div></div>
+      <div class="kpi"><div class="kpi-v">79 m²</div><div class="kpi-l">Gem. woonruimte per persoon bij 70+</div><div class="kpi-s">CBS 2022</div></div>
+      <div class="kpi"><div class="kpi-v">75%</div><div class="kpi-l">Verhuist binnen straal van 10 km</div><div class="kpi-s">PBL 2023</div></div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-t">Woonruimte per persoon naar leeftijd (m²)</div>
+        <div class="chart-s">Bron: CBS (2022). Alleenstaande oudere vrouwen wonen het grootst.</div>
+        <div class="chart-c"><canvas id="cRuimte"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-t">"Wil niet verhuizen" per leeftijdsgroep (%)</div>
+        <div class="chart-s">Bron: CBS (2020). 55-plussers over hun toekomstige woning.</div>
+        <div class="chart-c"><canvas id="cWil"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-t">Huishoudenssamenstelling NL — nu vs 2035 (×1.000)</div>
+        <div class="chart-s">Bron: CBS (2024). Prognose huishoudensgroei.</div>
+        <div class="chart-c"><canvas id="cHuis"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-t">Woningtekort als % van woningvoorraad (2018–2024)</div>
+        <div class="chart-s">Bron: ABF Research Primos (2024). Historische percentages zijn schattingen.</div>
+        <div class="chart-c"><canvas id="cTekort"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- 1 -->
-<h2>1. Structureel woningtekort</h2>
+<!-- 1. WONINGTEKORT -->
+<section class="sec warm" id="s1">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Studie 1 van 6</div>
+    <h2 class="sec-title">Structureel<br><em>woningtekort</em></h2>
+    <div class="src-card">
+      <div class="src-head"><span class="src-badge">Rijksoverheid · 2025</span><span class="src-year">Gepubliceerd: januari 2025</span></div>
+      <div class="src-apa">
+        Ministerie van Volkshuisvesting en Ruimtelijke Ordening. (2025). <em>Staat van de Volkshuisvesting 2024.</em> Rijksoverheid.
+        <a href="https://www.rijksoverheid.nl/documenten/publicaties/2025/01/20/staat-van-de-volkshuisvesting-2024" target="_blank" rel="noopener">https://www.rijksoverheid.nl/documenten/publicaties/2025/01/20/staat-van-de-volkshuisvesting-2024</a>
+      </div>
+      <div class="src-cols">
+        <div class="src-col">
+          <h4>Gerapporteerde feiten</h4>
+          <ul class="facts">
+            <li>Woningtekort bedraagt circa 400.000 woningen</li>
+            <li>Tekortpercentage: ~4,9% van de totale woningvoorraad</li>
+            <li>Benodigde productie: ~100.000 woningen per jaar tot 2030</li>
+            <li>Nieuwbouwproductie bleef in 2023 achter op doelstelling</li>
+          </ul>
+        </div>
+        <div class="src-col">
+          <h4>Relevantie voor concept</h4>
+          <p class="link-p">Het structurele karakter van het tekort onderbouwt de noodzaak om naast nieuwbouw ook de bestaande voorraad efficiënter te benutten. Doorstroming is als aanvullend instrument expliciet benoemd in de Nationale Woon- en Bouwagenda van het kabinet.</p>
+        </div>
+      </div>
+      <div class="nuance"><span class="nuance-icon">⚠️</span><span class="nuance-text"><strong>Kanttekening:</strong> Het rapport kwantificeert het tekort, maar doet geen uitspraak over de bijdrage van gedragsinterventies of matchingsplatforms aan het oplossen daarvan. Doorstroming is als beleidsdoel benoemd, niet als bewezen oplossingsroute.</span></div>
+    </div>
+  </div>
+</section>
 
-<div class="block">
-<p><strong>Bron (APA)</strong><br>
-<a href="https://www.rijksoverheid.nl/documenten/publicaties/2025/01/20/staat-van-de-volkshuisvesting-2024" target="_blank">
-Ministerie van Volkshuisvesting en Ruimtelijke Ordening. (2025). Staat van de Volkshuisvesting 2024
-</a>
-</p>
+<!-- 2. HUISHOUDENSGROEI -->
+<section class="sec" id="s2">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Studie 2 van 6</div>
+    <h2 class="sec-title">Huishoudensgroei en<br><em>demografische verschuiving</em></h2>
+    <div class="src-card">
+      <div class="src-head"><span class="src-badge">CBS · 2024</span><span class="src-year">Gepubliceerd: december 2024</span></div>
+      <div class="src-apa">
+        Centraal Bureau voor de Statistiek. (2024). <em>Prognose huishoudensgroei in de toekomst vooral door meer alleenstaanden.</em> CBS.
+        <a href="https://www.cbs.nl/nl-nl/nieuws/2024/51/prognose-huishoudensgroei-in-de-toekomst-vooral-door-meer-alleenstaanden" target="_blank" rel="noopener">https://www.cbs.nl/nl-nl/nieuws/2024/51/prognose-huishoudensgroei-in-de-toekomst-vooral-door-meer-alleenstaanden</a>
+      </div>
+      <div class="src-cols">
+        <div class="src-col">
+          <h4>Gerapporteerde feiten</h4>
+          <ul class="facts">
+            <li>9,0 miljoen huishoudens verwacht in 2035 (nu ~8,4 mln)</li>
+            <li>Groei van +600.000 huishoudens in 10 jaar</li>
+            <li>+400.000 extra eenpersoonshuishoudens</li>
+            <li>Sterke toename 65+ huishoudens door vergrijzing</li>
+            <li>Gemiddelde huishoudensomvang daalt structureel</li>
+          </ul>
+        </div>
+        <div class="src-col">
+          <h4>Relevantie voor concept</h4>
+          <p class="link-p">De verschuiving naar meer en kleinere huishoudens vergroot de structurele mismatch tussen de bestaande (grotere) woningvoorraad en de toekomstige vraag naar kleinere eenheden. Senioren maken een disproportioneel groot deel uit van de groeiende groep alleenwonenden in grote woningen.</p>
+        </div>
+      </div>
+      <div class="nuance"><span class="nuance-icon">⚠️</span><span class="nuance-text"><strong>Kanttekening:</strong> Toename van het aantal huishoudens betekent niet automatisch dat bestaande woningen vrijkomen. Extra huishoudens genereren extra vraag; doorstroming veronderstelt beweging binnen bestaande voorraad — niet de creatie van nieuwe units.</span></div>
+    </div>
+  </div>
+</section>
 
-<p><strong>Feiten</strong></p>
-<ul>
-<li>Woningtekort: ~400.000 woningen</li>
-<li>Tekortpercentage: ~4,9%</li>
-<li>Benodigde bouwproductie: ~100.000 woningen per jaar</li>
-</ul>
+<!-- 3. DOORSTROMING -->
+<section class="sec warm" id="s3">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Studie 3 van 6</div>
+    <h2 class="sec-title">Afnemende doorstroming<br><em>op de koopmarkt</em></h2>
+    <div class="src-card">
+      <div class="src-head"><span class="src-badge">WoON · 2025</span><span class="src-year">Gepubliceerd: april 2025</span></div>
+      <div class="src-apa">
+        Ministerie van Volkshuisvesting en Ruimtelijke Ordening. (2025). <em>Kernpublicatie WoON 2024.</em> Rijksoverheid.
+        <a href="https://www.rijksoverheid.nl/documenten/rapporten/2025/04/10/kernpublicatie-woon-24" target="_blank" rel="noopener">https://www.rijksoverheid.nl/documenten/rapporten/2025/04/10/kernpublicatie-woon-24</a>
+      </div>
+      <div class="src-cols">
+        <div class="src-col">
+          <h4>Gerapporteerde feiten</h4>
+          <ul class="facts">
+            <li>Doorstroming koopmarkt gedaald met −24% t.o.v. vorige meting</li>
+            <li>Meer huishoudens met verhuiswens dan beschikbaar passend aanbod</li>
+            <li>Gemiddelde woonquote gestegen naar 34,3% van besteedbaar inkomen</li>
+            <li>Starters relatief het zwaarst geraakt door gestegen woonlasten</li>
+          </ul>
+        </div>
+        <div class="src-col">
+          <h4>Relevantie voor concept</h4>
+          <p class="link-p">De −24% daling toont aan dat de markt niet alleen stokt door aanbodtekort maar ook door verminderde beweging. Frictiekosten (onzekerheid, timing, gebrek aan alternatief) spelen een aantoonbare rol — precies het mechanisme dat het platform probeert te adresseren.</p>
+        </div>
+      </div>
+      <div class="nuance"><span class="nuance-icon">⚠️</span><span class="nuance-text"><strong>Kanttekening:</strong> De daling wordt voor een substantieel deel verklaard door hogere hypotheekrente en gestegen woningprijzen — structurele economische factoren die een matchingsplatform niet oplost. Het aandeel van gedragsfrictie in de totale daling is niet separaat gekwantificeerd in dit rapport.</span></div>
+    </div>
+  </div>
+</section>
 
-<p><strong>Interpretatie</strong></p>
-<p>De woningmarkt is structureel uit balans. Het tekort is niet incidenteel maar systemisch.</p>
+<!-- 4. VERHUISBEREIDHEID -->
+<section class="sec" id="s4">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Studie 4 van 6</div>
+    <h2 class="sec-title">Beperkte verhuisbereidheid<br><em>bij ouderen — de harde grens</em></h2>
+    <div class="src-card">
+      <div class="src-head"><span class="src-badge">CBS · 2020</span><span class="src-year">Gepubliceerd 2020 — meest recente CBS-analyse op dit thema</span></div>
+      <div class="src-apa">
+        Centraal Bureau voor de Statistiek. (2020). <em>55-plussers over hun toekomstige woning.</em> CBS Statistische trends.
+        <a href="https://www.cbs.nl/nl-nl/longread/statistische-trends/2020/55-plussers-over-hun--toekomstige---woning" target="_blank" rel="noopener">https://www.cbs.nl/nl-nl/longread/statistische-trends/2020/55-plussers-over-hun--toekomstige---woning</a>
+      </div>
+      <div class="src-cols">
+        <div class="src-col">
+          <h4>Gerapporteerde feiten</h4>
+          <ul class="facts">
+            <li>56% van 55–64 jarigen wil niet verhuizen, tenzij noodzakelijk</li>
+            <li>72% van 75-plussers wil niet verhuizen</li>
+            <li>Verhuiswens daalt structureel met toenemende leeftijd</li>
+            <li>Meest genoemde reden: tevredenheid met huidige woning</li>
+            <li>Tweede reden: angst voor het onbekende en onzekerheid</li>
+          </ul>
+        </div>
+        <div class="src-col">
+          <h4>Relevantie voor concept</h4>
+          <p class="link-p">Een platform richt zich niet op de 72% zonder verhuiswens, maar op de resterende groep die wél open staat. Die groep is statistisch kleiner maar in absolute aantallen — bij 2,5 miljoen seniorenhuishoudens — nog altijd substantieel. De 55–65 groep (44% open) is het meest kansrijke segment.</p>
+        </div>
+      </div>
+      <div class="nuance"><span class="nuance-icon">⚠️</span><span class="nuance-text"><strong>Kritische kanttekening:</strong> 72% van 75-plussers wil <em>niet</em> verhuizen. Dit is de sterkste structurele beperking voor het concept. Schaalgrootte vereist óf een zeer hoog bereik, óf strategische focus op de 55–65 groep met hogere verhuisbereidheid.</span></div>
+    </div>
+  </div>
+</section>
 
-<p><strong>Link naar concept</strong></p>
-<p>Ondersteunt de noodzaak om naast nieuwbouw ook de bestaande voorraad efficiënter te benutten.</p>
+<!-- 5. WOONRUIMTE -->
+<section class="sec warm" id="s5">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Studie 5 van 6</div>
+    <h2 class="sec-title">Woonruimte per persoon:<br><em>een aanzienlijk verschil</em></h2>
+    <div class="src-card">
+      <div class="src-head"><span class="src-badge">CBS · 2022</span><span class="src-year">Gepubliceerd: november 2022</span></div>
+      <div class="src-apa">
+        Centraal Bureau voor de Statistiek. (2022). <em>Alleenstaande oudere vrouwen wonen het grootst.</em> CBS Nieuws.
+        <a href="https://www.cbs.nl/nl-nl/nieuws/2022/48/alleenstaande-oudere-vrouwen-wonen-het-grootst" target="_blank" rel="noopener">https://www.cbs.nl/nl-nl/nieuws/2022/48/alleenstaande-oudere-vrouwen-wonen-het-grootst</a>
+      </div>
+      <div class="src-cols">
+        <div class="src-col">
+          <h4>Gerapporteerde feiten</h4>
+          <ul class="facts">
+            <li>Nederlands gemiddelde: 53 m² woonruimte per persoon</li>
+            <li>70-plussers: gemiddeld 79 m² per persoon (+49%)</li>
+            <li>Alleenstaande ouderen 70+: doorgaans meer dan 100 m² p.p.</li>
+            <li>Grondslag: CBS Woningbestand gekoppeld aan huishoudensdata</li>
+          </ul>
+        </div>
+        <div class="src-col">
+          <h4>Relevantie voor concept</h4>
+          <p class="link-p">Het hogere woonoppervlak per persoon is statistisch aantoonbaar en consistent met de hypothese dat bestaande woningcapaciteit niet optimaal wordt benut. Dit onderbouwt het idee van "verborgen capaciteit" in de bestaande voorraad — mits bewoners open staan voor verhuizing.</p>
+        </div>
+      </div>
+      <div class="nuance"><span class="nuance-icon">⚠️</span><span class="nuance-text"><strong>Kanttekening:</strong> Groter wonen is niet automatisch gelijk aan "te groot wonen" of verhuisbereidheid. Een afgelost eigenaar heeft geen financiële prikkel om kleiner te gaan wonen. Onderbenutting is een statistische constatering — geen bewijs van verhuiswens.</span></div>
+    </div>
+  </div>
+</section>
 
-<p class="nuance">Dit rapport zegt niets over hoe doorstroming concreet gerealiseerd kan worden.</p>
-</div>
-
-<!-- 2 -->
-<h2>2. Huishoudensgroei en demografie</h2>
-
-<div class="block">
-<p><strong>Bron (APA)</strong><br>
-<a href="https://www.cbs.nl/nl-nl/nieuws/2024/51/prognose-huishoudensgroei-in-de-toekomst-vooral-door-meer-alleenstaanden" target="_blank">
-CBS. (2024). Prognose huishoudensgroei
-</a>
-</p>
-
-<p><strong>Feiten</strong></p>
-<ul>
-<li>9,0 miljoen huishoudens in 2035</li>
-<li>+600.000 huishoudens groei</li>
-<li>+400.000 extra alleenstaanden</li>
-<li>sterke groei 65+ huishoudens</li>
-</ul>
-
-<p><strong>Interpretatie</strong></p>
-<p>De vraag verschuift structureel richting kleinere huishoudens.</p>
-
-<p><strong>Link naar concept</strong></p>
-<p>Ondersteunt mismatch tussen bestaande woningvoorraad en toekomstige vraag.</p>
-
-<p class="nuance">Toename van huishoudens betekent niet automatisch dat bestaande woningen vrijkomen.</p>
-</div>
-
-<!-- 3 -->
-<h2>3. Afnemende doorstroming</h2>
-
-<div class="block">
-<p><strong>Bron (APA)</strong><br>
-<a href="https://www.rijksoverheid.nl/documenten/rapporten/2025/04/10/kernpublicatie-woon-24" target="_blank">
-Ministerie van Volkshuisvesting. (2025). WoON 2024
-</a>
-</p>
-
-<p><strong>Feiten</strong></p>
-<ul>
-<li>-24% doorstroming koopmarkt</li>
-<li>Meer verhuiswens dan beschikbare woningen</li>
-<li>Stijgende woonlasten (34,3% woonquote)</li>
-</ul>
-
-<p><strong>Interpretatie</strong></p>
-<p>De woningmarkt stokt niet alleen door aanbod, maar ook door gebrek aan beweging.</p>
-
-<p><strong>Link naar concept</strong></p>
-<p>Ondersteunt het idee dat het oplossen van frictie in doorstroming essentieel is.</p>
-
-<p class="nuance">Financiële factoren (rente, prijzen) spelen een grote rol die technologie niet oplost.</p>
-</div>
-
-<!-- 4 -->
-<h2>4. Beperkte verhuisbereidheid</h2>
-
-<div class="block">
-<p><strong>Bron (APA)</strong><br>
-<a href="https://www.cbs.nl/nl-nl/longread/statistische-trends/2020/55-plussers-over-hun--toekomstige---woning" target="_blank">
-CBS. (2020). 55-plussers over hun woning
-</a>
-</p>
-
-<p><strong>Feiten</strong></p>
-<ul>
-<li>56% wil niet verhuizen tenzij noodzakelijk</li>
-<li>72% bij 75+ wil niet verhuizen</li>
-</ul>
-
-<p><strong>Interpretatie</strong></p>
-<p>Verhuisgedrag is sterk geremd door emotionele en praktische factoren.</p>
-
-<p><strong>Link naar concept</strong></p>
-<p>Een oplossing moet verder gaan dan matching (begeleiding, vertrouwen, timing).</p>
-
-<p class="nuance">Dit vormt een structurele beperking voor opschaalbaarheid.</p>
-</div>
-
-<!-- 5 -->
-<h2>5. Onderbenutte woonruimte</h2>
-
-<div class="block">
-<p><strong>Bron (APA)</strong><br>
-<a href="https://www.cbs.nl/nl-nl/nieuws/2022/48/alleenstaande-oudere-vrouwen-wonen-het-grootst" target="_blank">
-CBS. (2022). Alleenstaande ouderen wonen het grootst
-</a>
-</p>
-
-<p><strong>Feiten</strong></p>
-<ul>
-<li>Gemiddeld: 53 m² per persoon</li>
-<li>70+: 79 m² per persoon</li>
-<li>Alleenstaande ouderen: >100 m² p.p.</li>
-</ul>
-
-<p><strong>Interpretatie</strong></p>
-<p>Er is significant ruimtegebruik per persoon in hogere leeftijdsgroepen.</p>
-
-<p><strong>Link naar concept</strong></p>
-<p>Ondersteunt hypothese van “verborgen capaciteit”.</p>
-
-<p class="nuance">Onderbenutting betekent niet automatisch beschikbaarheid.</p>
-</div>
-
-<!-- 6 -->
-<h2>6. Verhuisgedrag is beperkt stuurbaar</h2>
-
-<div class="block">
-<p><strong>Bron (APA)</strong><br>
-<a href="https://www.pbl.nl/downloads/pbl-2023-verhuismotieven-en-ruimtelijke-verhuisbewegingen-4669pdf" target="_blank">
-PBL. (2023). Verhuismotieven en verhuisgedrag
-</a>
-</p>
-
-<p><strong>Feiten</strong></p>
-<ul>
-<li>Verhuisgedrag beperkt stuurbaar</li>
-<li>Ouderen zijn honkvast</li>
-<li>75% verhuist binnen 10 km</li>
-</ul>
-
-<p><strong>Interpretatie</strong></p>
-<p>Gedrag en context bepalen verhuisbeslissingen meer dan aanbod alleen.</p>
-
-<p><strong>Link naar concept</strong></p>
-<p>Technologie alleen is onvoldoende → combinatie met begeleiding en timing noodzakelijk.</p>
-</div>
+<!-- 6. GEDRAG -->
+<section class="sec" id="s6">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Studie 6 van 6</div>
+    <h2 class="sec-title">Verhuisgedrag is<br><em>beperkt stuurbaar</em></h2>
+    <div class="src-card">
+      <div class="src-head"><span class="src-badge">PBL · 2023</span><span class="src-year">Gepubliceerd: 2023</span></div>
+      <div class="src-apa">
+        Planbureau voor de Leefomgeving. (2023). <em>Verhuismotieven en ruimtelijke verhuisbewegingen.</em> PBL.
+        <a href="https://www.pbl.nl/downloads/pbl-2023-verhuismotieven-en-ruimtelijke-verhuisbewegingen-4669pdf" target="_blank" rel="noopener">https://www.pbl.nl/downloads/pbl-2023-verhuismotieven-en-ruimtelijke-verhuisbewegingen-4669pdf</a>
+      </div>
+      <div class="src-cols">
+        <div class="src-col">
+          <h4>Gerapporteerde feiten</h4>
+          <ul class="facts">
+            <li>75% van verhuizende ouderen verhuist binnen 10 km</li>
+            <li>Verhuisgedrag is sterk context- en levensfase-gebonden</li>
+            <li>Ouderen zijn structureel honkvast; buurtbinding is dominant motief</li>
+            <li>Zorgbehoefte is de sterkste externe trigger voor daadwerkelijke verhuizing</li>
+            <li>Vrijwillige verhuisbereidheid vereist een concrete, persoonlijke aanleiding</li>
+          </ul>
+        </div>
+        <div class="src-col">
+          <h4>Relevantie voor concept</h4>
+          <p class="link-p">De 10 km-bevinding valideert de lokale matchingsstrategie. De nadruk op buurtbinding als dominant motief impliceert dat een platform expliciet moet inzetten op lokale matches binnen de vertrouwde wijk. Vrijwillige verhuizing vereist een overtuigende en concrete "trigger" — dat is wat het platform probeert te bieden.</p>
+        </div>
+      </div>
+      <div class="nuance"><span class="nuance-icon">⚠️</span><span class="nuance-text"><strong>Kritische kanttekening:</strong> PBL concludeert dat verhuisgedrag "beperkt stuurbaar" is via beleid of informatieverstrekking. Zorgbehoefte en levensgebeurtenissen (overlijden partner, ziekte) zijn de dominante triggers — niet het zien van een alternatief. Dit is de meest fundamentele beperking voor het concept en vraagt om empirische toetsing via de pilot.</span></div>
+    </div>
+  </div>
+</section>
 
 <!-- CONCLUSIE -->
-<h2>Samenvattende conclusie</h2>
-
-<div class="highlight">
-<ul>
-<li>Woningtekort is structureel</li>
-<li>Huishoudens veranderen sneller dan woningen</li>
-<li>Doorstroming is beperkt</li>
-<li>Gedrag vormt grootste barrière</li>
-</ul>
-
-<br>
-
-<strong>Impliceert:</strong><br>
-Innovatie in de bestaande woningvoorraad is logisch, maar moet realistisch omgaan met gedrags- en marktdynamiek.
-</div>
+<section class="sec dark">
+  <div class="inner">
+    <div class="eyebrow" style="color:var(--gold)"><span class="eyebrow-line"></span>Synthese</div>
+    <h2 class="sec-title inv">Wat de data zegt —<br><em>en wat niet</em></h2>
+    <p class="sec-lead inv">Een eerlijke lezing van de beschikbare bronnen levert onderbouwing voor het probleem én serieuze beperkingen voor de oplossing.</p>
+    <div class="con-grid">
+      <div class="con-card con-pos">
+        <h4>✓ Wat de data wél onderbouwt</h4>
+        <ul>
+          <li>Structureel woningtekort van ~400.000 woningen (Rijksoverheid, ABF 2024)</li>
+          <li>Doorstroming daalde aantoonbaar met −24% (WoON 2024)</li>
+          <li>Ouderen wonen significant groter per persoon dan het gemiddelde (CBS 2022)</li>
+          <li>75% verhuist lokaal binnen 10 km — lokale matching is valide strategie (PBL 2023)</li>
+          <li>±28–44% van 55+ staat open voor verandering — een werkbaar segment</li>
+        </ul>
+      </div>
+      <div class="con-card con-neg">
+        <h4>✗ Wat de data níet onderbouwt</h4>
+        <ul>
+          <li>Dat een matchingsplatform daadwerkelijk tot verhuizingen leidt (geen empirisch bewijs)</li>
+          <li>Dat de meerderheid van ouderen openstaat voor vrijwillige verhuizing (72% wil niet)</li>
+          <li>Dat doorstroomproblemen overwegend informationeel zijn (financiële factoren domineren)</li>
+          <li>Dat technologie verhuisgedrag structureel kan sturen (PBL: "beperkt stuurbaar")</li>
+          <li>De ketenlengte van 2,5× is een theoretische aanname, geen empirisch gemeten waarde</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- BRONNEN -->
-<h2>Bronnen (APA)</h2>
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow"><span class="eyebrow-line"></span>Bronnenlijst</div>
+    <h2 class="sec-title">Gebruikte bronnen<br><em>(APA 7e editie)</em></h2>
+    <p class="sec-lead">Alle bronnen zijn publiek toegankelijk. Directe links zijn opgegeven per bron.</p>
+    <div class="ref-list">
+      <div class="ref"><div class="ref-n">1</div><div class="ref-t">ABF Research. (2024). <em>Primos-prognose 2024.</em> ABF Research. <a href="https://www.abfresearch.nl/publicaties/primos-prognose-2024/" target="_blank" rel="noopener">https://www.abfresearch.nl/publicaties/primos-prognose-2024/</a></div></div>
+      <div class="ref"><div class="ref-n">2</div><div class="ref-t">Centraal Bureau voor de Statistiek. (2020). <em>55-plussers over hun toekomstige woning.</em> CBS Statistische trends. <a href="https://www.cbs.nl/nl-nl/longread/statistische-trends/2020/55-plussers-over-hun--toekomstige---woning" target="_blank" rel="noopener">https://www.cbs.nl/nl-nl/longread/statistische-trends/2020/55-plussers-over-hun--toekomstige---woning</a></div></div>
+      <div class="ref"><div class="ref-n">3</div><div class="ref-t">Centraal Bureau voor de Statistiek. (2022). <em>Alleenstaande oudere vrouwen wonen het grootst.</em> CBS Nieuws. <a href="https://www.cbs.nl/nl-nl/nieuws/2022/48/alleenstaande-oudere-vrouwen-wonen-het-grootst" target="_blank" rel="noopener">https://www.cbs.nl/nl-nl/nieuws/2022/48/alleenstaande-oudere-vrouwen-wonen-het-grootst</a></div></div>
+      <div class="ref"><div class="ref-n">4</div><div class="ref-t">Centraal Bureau voor de Statistiek. (2024). <em>Prognose huishoudensgroei in de toekomst vooral door meer alleenstaanden.</em> CBS Nieuws. <a href="https://www.cbs.nl/nl-nl/nieuws/2024/51/prognose-huishoudensgroei-in-de-toekomst-vooral-door-meer-alleenstaanden" target="_blank" rel="noopener">https://www.cbs.nl/nl-nl/nieuws/2024/51/prognose-huishoudensgroei-in-de-toekomst-vooral-door-meer-alleenstaanden</a></div></div>
+      <div class="ref"><div class="ref-n">5</div><div class="ref-t">Ministerie van Volkshuisvesting en Ruimtelijke Ordening. (2025). <em>Staat van de Volkshuisvesting 2024.</em> Rijksoverheid. <a href="https://www.rijksoverheid.nl/documenten/publicaties/2025/01/20/staat-van-de-volkshuisvesting-2024" target="_blank" rel="noopener">https://www.rijksoverheid.nl/documenten/publicaties/2025/01/20/staat-van-de-volkshuisvesting-2024</a></div></div>
+      <div class="ref"><div class="ref-n">6</div><div class="ref-t">Ministerie van Volkshuisvesting en Ruimtelijke Ordening. (2025). <em>Kernpublicatie WoON 2024.</em> Rijksoverheid. <a href="https://www.rijksoverheid.nl/documenten/rapporten/2025/04/10/kernpublicatie-woon-24" target="_blank" rel="noopener">https://www.rijksoverheid.nl/documenten/rapporten/2025/04/10/kernpublicatie-woon-24</a></div></div>
+      <div class="ref"><div class="ref-n">7</div><div class="ref-t">Planbureau voor de Leefomgeving. (2023). <em>Verhuismotieven en ruimtelijke verhuisbewegingen.</em> PBL. <a href="https://www.pbl.nl/downloads/pbl-2023-verhuismotieven-en-ruimtelijke-verhuisbewegingen-4669pdf" target="_blank" rel="noopener">https://www.pbl.nl/downloads/pbl-2023-verhuismotieven-en-ruimtelijke-verhuisbewegingen-4669pdf</a></div></div>
+    </div>
+  </div>
+</section>
 
-<p class="small">
-ABF Research. (2024). Primos-prognose 2024. <br>
-CBS. (2020). 55-plussers over hun woning. <br>
-CBS. (2022). Alleenstaande ouderen wonen het grootst. <br>
-CBS. (2024). Prognose huishoudensgroei. <br>
-CBS. (2024). Woningen met 45-plussers komen minst vaak vrij. <br>
-Ministerie van Volkshuisvesting. (2025). Staat van de Volkshuisvesting 2024. <br>
-Ministerie van Volkshuisvesting. (2025). WoON 2024. <br>
-PBL. (2023). Verhuismotieven en verhuisgedrag. <br>
-</p>
+<!-- CTA -->
+<section class="sec dark" style="padding:5rem 3rem;text-align:center">
+  <div style="max-width:600px;margin:0 auto">
+    <div class="eyebrow" style="justify-content:center;color:var(--gold)"><span class="eyebrow-line"></span>Doe mee<span class="eyebrow-line"></span></div>
+    <h2 class="sec-title inv" style="text-align:center">Het probleem is aangetoond.<br><em>De oplossing moet bewezen worden.</em></h2>
+    <p style="text-align:center;font-size:.95rem;line-height:1.8;color:rgba(246,241,233,.6);margin:1rem auto 2.4rem;max-width:520px">De pilot is bedoeld om te toetsen of een matchingsplatform daadwerkelijk tot verhuisbewegingen leidt. Dat is een empirische vraag — geen aanname.</p>
+    <a href="aanmelden.html" class="btn">Aanmelden voor de pilot <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</section>
 
-</div>
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="f-logo">niste·</a>
+  <p class="f-meta">Pilot 2026 · Noord-Brabant · Woningmatch op basis van latente verhuisintentie</p>
+  <nav class="f-nav">
+    <a href="index.html">Hoe het werkt</a>
+    <a href="onderbouwing.html" class="cur">Onderbouwing</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="aanmelden.html">Aanmelden</a>
+  </nav>
+</footer>
+
+<script>
+  const F='#2A4A3E', M='#3D6B5C', G='#C49A4A', R='#B85C38', GL='rgba(42,74,62,.09)';
+  Chart.defaults.font.family="'Plus Jakarta Sans',sans-serif";
+  Chart.defaults.color='#9A9A8E';
+
+  new Chart(document.getElementById('cRuimte'),{type:'bar',data:{
+    labels:['NL gemiddeld','55–64 jaar','65–69 jaar','70+ jaar','Alleenst. 70+'],
+    datasets:[{label:'m² per persoon',data:[53,62,70,79,102],backgroundColor:[M,M,M,F,G],borderRadius:8,borderSkipped:false}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:120,grid:{color:GL},ticks:{callback:v=>v+' m²'}},x:{grid:{display:false}}}}});
+
+  new Chart(document.getElementById('cWil'),{type:'bar',data:{
+    labels:['55–64 jaar','65–74 jaar','75+ jaar'],
+    datasets:[{label:'% wil niet verhuizen',data:[56,65,72],backgroundColor:[M,F,R],borderRadius:8,borderSkipped:false}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'% wil niet verhuizen'}}},scales:{y:{beginAtZero:true,max:100,grid:{color:GL},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+  new Chart(document.getElementById('cHuis'),{type:'bar',data:{
+    labels:['Eenpersoons','Paar z. kind','Paar m. kind','Eenouder','Overig'],
+    datasets:[
+      {label:'Nu (~2024)',data:[3360,2600,1680,560,200],backgroundColor:M,borderRadius:6,borderSkipped:false},
+      {label:'Prognose 2035',data:[3760,2750,1720,580,190],backgroundColor:G,borderRadius:6,borderSkipped:false}
+    ]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:14}}},scales:{y:{beginAtZero:true,grid:{color:GL},ticks:{callback:v=>v.toLocaleString('nl')}},x:{grid:{display:false}}}}});
+
+  new Chart(document.getElementById('cTekort'),{type:'line',data:{
+    labels:['2018','2019','2020','2021','2022','2023','2024'],
+    datasets:[{label:'Woningtekort (×1.000)',data:[263,279,300,315,390,400,400],borderColor:R,backgroundColor:'rgba(184,92,56,.1)',fill:true,tension:0.4,pointBackgroundColor:R,pointRadius:5}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:200,grid:{color:GL},ticks:{callback:v=>v+'K'}},x:{grid:{display:false}}}}});
+</script>
+
 <script src="nav.js"></script>
 </body>
 </html>
